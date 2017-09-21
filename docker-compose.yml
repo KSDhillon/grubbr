@@ -3,7 +3,7 @@ models:
     external_links:
       -  mysql:db
     volumes:
-      - /home/karan/cs4501:/app
+      - /app/grubbr:/app
     ports:
       - "8001:8000"
-    command: bash -c "mod_wsgi-express start-server --working-directory /app/grubbr --reload-on-changes app/grubbr/app/wsgi.py"
+    command: bash -c "mod_wsgi-express start-server --working-directory /app --reload-on-changes app/grubbr/app/wsgi.py"
