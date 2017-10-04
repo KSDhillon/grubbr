@@ -15,6 +15,7 @@ def create_user(request):
     if (request.method != 'POST'):
         return message(False, "Cannot " + request.method + " to" + request.path)
     else:
+        #implement input test
         user = User(
             email=request.POST['email'],
             password=request.POST['password'],
