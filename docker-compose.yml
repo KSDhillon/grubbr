@@ -3,7 +3,28 @@ models:
     external_links:
       -  mysql:db
     volumes:
-      - ./grubbr_models/:/app
+      - ./grubbr_models:/app
     ports:
       - "8001:8000"
+
     command: bash -c "python /app/manage.py makemigrations && python /app/manage.py migrate && python /app/manage.py test && mod_wsgi-express start-server --working-directory /app/ --reload-on-changes /app/grubbr_models/wsgi.py"
+
+exp:
+   image: tp33/django
+   links:
+      - models:models-api
+   ports:
+      - "8002:8000"
+   volumes:
+      - ./grubbr_exp:/app
+   command: "mod_wsgi-express start-server --reload-on-changes stuff-exp/wsgi.py"
+
+web:
+   image: tp33/django
+   links:
+      - exp:exp-api
+   ports:
+      - "8000:8000"
+   volumes:
+      - ./grubbr_web:/app
+   command: "mod_wsgi-express start-server --reload-on-changes stuff-web/wsgi.py"
