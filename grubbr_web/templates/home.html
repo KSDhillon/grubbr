@@ -2,42 +2,149 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>UniChat</title>
+        <title>Grubbr</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/static/css/home.css">
     </head>
     <body>
-        <nav class="navbar navbar-inverse" style="border-radius: 0;">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">Grubbr</a>
+
+        <nav class="navbar navbar-toggleable-md navbar-inverse bg-info">
+            <div class="container">
+                <a class="navbar-brand" id="nav-logo" href="#">Grubbr</a>
+                <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Link</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-              <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-list"></span> Details</a></li>
-              </ul>
-            </div>
-          </div>
         </nav>
-        <div class="container">
-            <section class="jumbotron text-center">
-              <div class="container">
-                <h1 class="jumbotron-heading">Welcome Home!</h1>
-                <p class="lead text-muted">Enjoy a homecooked meal cooked by people around you.</p>
+
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Welcome to Grubbr!</h1>
+                <p class="lead text-muted">A Marketplace where you can buy or sell homecooked meals. <br />Affordable | Healthy | Fun</p>
                 <p>
-                  <a href="#" class="btn btn-primary">Check Out Meals</a>
+                    <a href="#" class="btn btn-info">Useless Button</a>
+                    <a href="#" class="btn btn-secondary">Learn More</a>
                 </p>
+            </div>
+        </section>
+
+        <div class="container" id="meal-container">
+            <div class="card">
+              <div class="card-block text-center" id="meal-heading">
+                <h3 class="jumbotron-heading no-mb">Recent Meals</h3>
               </div>
-            </section>
+            </div>
+            <div class="row meal-row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-block meal-title">
+                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
+                        </div>
+                        <img src="http://via.placeholder.com/300x200" alt="Card image">
+                        <div class="card-block">
+                            <p class="card-text">of a card.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-block meal-title">
+                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
+                        </div>
+                        <img src="http://via.placeholder.com/300x200" alt="Card image">
+                        <div class="card-block">
+                            <p class="card-text">of a card.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-block meal-title">
+                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
+                        </div>
+                        <img src="http://via.placeholder.com/300x200" alt="Card image">
+                        <div class="card-block">
+                            <p class="card-text">of a card.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row meal-row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-block meal-title">
+                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
+                        </div>
+                        <img src="http://via.placeholder.com/300x200" alt="Card image">
+                        <div class="card-block">
+                            <p class="card-text">of a card.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-block meal-title">
+                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
+                        </div>
+                        <img src="http://via.placeholder.com/300x200" alt="Card image">
+                        <div class="card-block">
+                            <p class="card-text">of a card.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-block meal-title">
+                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
+                        </div>
+                        <img src="http://via.placeholder.com/300x200" alt="Card image">
+                        <div class="card-block">
+                            <p class="card-text">of a card.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <footer id="myFooter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <h2 class="logo"><a href="#"> GRUBBR </a></h2>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="social-networks">
+                            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                            <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
+                        </div>
+                        <button type="button" class="btn btn-default">Contact us</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>Copyright © 2017 Grubbr | All rights reserved.</p>
+            </div>
+        </footer>
+
     </body>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 </html>
