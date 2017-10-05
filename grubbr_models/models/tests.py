@@ -10,7 +10,7 @@ class UserTestCase(TestCase):
     def setUp(self):
         self.first_user = User.objects.create(email = "test@example.com", password = "password", first_name = "first", last_name = "user")
         
-        sample_data = {'email': 'testp@virginia.edu',
+        self.sample_data = {'email': 'testp@virginia.edu',
                        'password': 'password',
                        'first_name': 'tester',
                        'last_name': 'testing'
@@ -25,32 +25,54 @@ class UserTestCase(TestCase):
         }
         
         response = self.client.post(url, user_data, format='json')
-        
+
+        # Verify response is successful
+        res = json.loads(response.content.decode('utf-8'))
+        self.assertTrue(res['success'])
+
+        # Verify that there are now two objects in the database
         self.assertEqual(User.objects.count(), 2)
+
+        # Compare email addresses of objects
         new_user = User.objects.get(pk=2)
-        self.assertEqual(new_user.first_name, user_data['first_name'])
-            
-    def success_response(self):
-        response = self.client.get(reverse('user_list', kwargs={'user_id':1}))
-        self.assertContains(response, 'user_list')   
-            
-            
-    def update_info(self):
-        url = reverse('user_info', args=[self.first_user.id])
-            
-        response = self.client.put(url, self.sample_data)
+        self.assertEqual(new_user.email, user_data['email'])
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
             
-    def delete_user(self):
-        url = reverse('user_info', args=[self.first_user.id])
+    def test_update_user(self):
+        url = reverse('user_action', args=[self.first_user.id])
+
+        response = self.client.post(url, {'email': 'testemail@test.net'}, format='json')
+
+        # Verify that it returns the desired status code
+        self.assertEqual(response.status_code, 200)
+
+        # Verify still just one user in db
+        self.assertEqual(User.objects.count(), 1)
+
+        # Compare email addresses to make sure they changed
+        self.assertEqual(User.objects.get(pk=self.first_user.id).email, 'testemail@test.net')
+            
+    def test_delete_user(self):
+        uid = self.first_user.id
+        url = reverse('user_action', args=[uid])
         response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+        # Verify return status
+        self.assertEqual(response.status_code, 200)
+
+        # Verify that there are no User objects left in db
+        self.assertEqual(User.objects.count(), 0)
             
-    def fails_invalid(self):
-        response = self.client.get(reverse('user_list'))
-        self.assertEquals(response.status_code, 404)
+    def test_get_user(self):
+        url = reverse('user_action', args=[self.first_user.id])
+        response = self.client.get(url)
+
+        # Verify return status
+        self.assertEqual(response.status_code, 200)
+
+        # Verify response is successful
+        res = json.loads(response.content.decode('utf-8'))
+        self.assertEqual(res['result']['email'], self.first_user.email)
               
     def tearDown(self):
         pass
