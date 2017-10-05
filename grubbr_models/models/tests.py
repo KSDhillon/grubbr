@@ -8,27 +8,52 @@ import json
     class UserTestCase(TestCase):
         #setUp method is called before each test in this class
         def setUp(self):
-            pass #nothing to set up
-
+            self.first_user = User.objects.create(email = "test@example.com", password = "password", first_name = "first", last_name = "user")
+            
+            sample_data = {'email': 'testp@virginia.edu',
+                         'password': 'password',
+                         'first_name': 'tester',
+                         'last_name': 'testing'
+            }
+        
         def create_user(self):
+            url = reverse('user_list')
             user_data = {'email': 'dankramp@virginia.edu',
                          'password': 'password',
                          'first_name': 'Dan',
                          'last_name': 'Kramp'
             }
             
-            post_encoded = urllib.parse.urlencode(user_data).encode('utf-8')
+            response = self.client.post(url, user_data, format='json')
 
-            req = urllib.request.Request('http://localhost:8000/api/user/', data=post_encoded, method='POST')
-            resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+            self.asserEqual(models.User.objects.count(), 2)
+            new_user = models.User.objects.get(pk=2)
+            self.asserEqual(new_user.first_name, user_data['first_name'])
+            
+        def success_response(self):
+            response = self.client.get(reverse('user_list', kwargs={'user_id':1}))
+            self.assertContains(response, 'user_list')   
+            
+            
+        def update_info(self):
+            url = reverse('user_info', args=[self.first_user.id])
+            
+            response = self.client.put(url, self.sample_data)
 
-            self.assertContains(response, 'order_list')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            
+        def delete_user(self):
+            url = reverse('user_info', args=[self.first_user.id])
+            response = self.client.delete(url)
+            self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        #user_id not given in url, so error
-        def fails_invalid(self):
-            response = self.client.get(reverse('all_orders_list'))
+            
+          def fails_invalid(self):
+            response = self.client.get(reverse('user_list'))
             self.assertEquals(response.status_code, 404)
+           
+        def tearDown(swlf):
+            pass
+            
 
-        #tearDown method is called after each test
-        def tearDown(self):
-            pass #nothing to tear down
+    
