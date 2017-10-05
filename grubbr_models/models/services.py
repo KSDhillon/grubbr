@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
-import json
-from .models import *
+from django.contrib.auth.hashers import make_password
 from django.views.decorators.csrf import csrf_exempt
+from .models import *
 
 def message(success, result):
     res = {
@@ -15,12 +15,24 @@ def create_user(request):
     if (request.method != 'POST'):
         return message(False, "Cannot " + request.method + " to" + request.path)
     else:
-        #implement input test
+        #extracting body elements
+        email = request.POST['email']
+        password = request.POST['password']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+
+        #validation elements
+        if (not email or not password or not first_name or not last_name):
+            return message(False, "All fields must be provided to create a user.")
+
+        #hashing password
+        encripted_password = make_password(password)
+
         user = User(
-            email=request.POST['email'],
-            password=request.POST['password'],
-            first_name=request.POST['first_name'],
-            last_name=request.POST['last_name'],
+            email=email,
+            password=encripted_password,
+            first_name=first_name,
+            last_name=last_name
         )
         try:
             user.save()
@@ -33,6 +45,15 @@ def create_meal(request):
     if (request.method != 'POST'):
         return message(False, "Cannot " + request.method + " to" + request.path)
     else:
+        name = request.POST['name']
+        price = request.POST['price']
+        description = request.POST['description']
+        portions = request.POST['portions']
+
+        #validate fields
+        if(not name or not price or not description or not portions):
+            return message(False, "All fields must be provided to create a meal.")
+            
         meal = Meal(
             name=request.POST['name'],
             price=request.POST['price'],
