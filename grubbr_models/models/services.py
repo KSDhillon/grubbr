@@ -26,11 +26,11 @@ def create_user(request):
             return message(False, "All fields must be provided to create a user.")
 
         #hashing password
-        encripted_password = make_password(password)
+        encrypted_password = make_password(password)
 
         user = User(
             email=email,
-            password=encripted_password,
+            password=encrypted_password,
             first_name=first_name,
             last_name=last_name
         )
@@ -81,7 +81,7 @@ def rud_user_by_id(request, user_id):
         return message(True, "User was updated")
     elif (request.method == 'DELETE'):
         user.delete()
-        return message(True, "User was deleled.")
+        return message(True, "User was deleted.")
     else:
         return message(False, "Cannot " + request.method + " to" + request.path)
 
