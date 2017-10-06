@@ -12,9 +12,7 @@ def message(success, result):
 
 @csrf_exempt
 def create_user(request):
-    if (request.method != 'POST'):
-        return message(False, "Cannot " + request.method + " to" + request.path)
-    else:
+    if (request.method == 'POST'):
         #extracting body elements
         email = request.POST['email']
         password = request.POST['password']
@@ -26,11 +24,11 @@ def create_user(request):
             return message(False, "All fields must be provided to create a user.")
 
         #hashing password
-        encrypted_password = make_password(password)
+        encripted_password = make_password(password)
 
         user = User(
             email=email,
-            password=encrypted_password,
+            password=encripted_password,
             first_name=first_name,
             last_name=last_name
         )
@@ -39,12 +37,18 @@ def create_user(request):
         except:
             return message(False, "There was an error saving user to database.")
         return message(True, "User was created.")
+    elif (request.method == 'GET'):
+        users = User.objects.all()
+        result = []
+        for user in users:
+            result.append(user.to_json())
+        return message(True, result)
+    else:
+        return message(False, "Cannot " + request.method + " to" + request.path)
 
 @csrf_exempt
 def create_meal(request):
-    if (request.method != 'POST'):
-        return message(False, "Cannot " + request.method + " to" + request.path)
-    else:
+    if (request.method == 'POST'):
         name = request.POST['name']
         price = request.POST['price']
         description = request.POST['description']
@@ -53,7 +57,7 @@ def create_meal(request):
         #validate fields
         if (not name or not price or not description or not portions):
             return message(False, "All fields must be provided to create a meal.")
-            
+
         meal = Meal(
             name=request.POST['name'],
             price=request.POST['price'],
@@ -65,6 +69,14 @@ def create_meal(request):
         except:
             return message(False, "There was an error saving user to database.")
         return message(True, "Meal was created.")
+    elif (request.method == 'GET'):
+        meals = Meal.objects.all()
+        result = []
+        for meal in meals:
+            result.append(meal.to_json())
+        return message(True, result)
+    else:
+        return message(False, "Cannot " + request.method + " to" + request.path)
 
 @csrf_exempt
 def rud_user_by_id(request, user_id):
