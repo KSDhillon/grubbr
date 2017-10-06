@@ -16,6 +16,7 @@ class User(AbstractBaseUser):
             'password': self.password,
             'first_name': self.first_name,
             'last_name': self.last_name,
+            'id': self.id,
         }
 
 class Meal(models.Model):
@@ -30,4 +31,5 @@ class Meal(models.Model):
             'name': self.name,
             'description': self.description,
             'portions': self.portions,
+            'id': self.id,
         }

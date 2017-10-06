@@ -32,23 +32,28 @@
             </div>
         </nav>
         <div class="container" id="meal-container">
-            <div class="row">
-                <div class="card-group">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="http://via.placeholder.com/300x300" alt="Card image">
+            {% if data %}
+                <div class="row">
+                    <div class="card-group">
+                        <div class="col-md-5">
+                            <div class="card">
+                                <img src="http://via.placeholder.com/300x300" alt="Card image">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-block">
-                                <h4 class="card-title">Card title</h4>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                        <div class="col-md-7">
+                            <div class="card">
+                                <div class="card-block">
+                                    <h4 class="card-title">{{data.name}}</h4>
+                                    <p class="card-text">{{data.description}}</p>
+                                    <p class="card-text">{{data.price}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            {% else %}
+                <p>Meal not found</p>
+            {% endif %}
         </div>
     </body>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>

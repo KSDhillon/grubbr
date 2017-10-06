@@ -47,78 +47,27 @@
         <div class="container" id="meal-container">
             <div class="card">
               <div class="card-block text-center" id="meal-heading">
-                <h3 class="jumbotron-heading no-mb">Recent Meals</h3>
+                <h3 class="jumbotron-heading no-mb">Featured Meals</h3>
               </div>
             </div>
             <div class="row meal-row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-block meal-title">
-                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
+                {% if data %}
+                    {% for meal in data %}
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-block meal-title">
+                                    <h5 class="jumbotron-heading no-mb"><a href="/meal/{{meal.id}}">{{ meal.name }}</a></h5>
+                                </div>
+                                <img src="http://via.placeholder.com/300x200" alt="Card image">
+                                <div class="card-block">
+                                    <p class="card-text"><b>${{meal.price}}</b></p>
+                                </div>
+                            </div>
                         </div>
-                        <img src="http://via.placeholder.com/300x200" alt="Card image">
-                        <div class="card-block">
-                            <p class="card-text">of a card.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-block meal-title">
-                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
-                        </div>
-                        <img src="http://via.placeholder.com/300x200" alt="Card image">
-                        <div class="card-block">
-                            <p class="card-text">of a card.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-block meal-title">
-                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
-                        </div>
-                        <img src="http://via.placeholder.com/300x200" alt="Card image">
-                        <div class="card-block">
-                            <p class="card-text">of a card.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row meal-row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-block meal-title">
-                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
-                        </div>
-                        <img src="http://via.placeholder.com/300x200" alt="Card image">
-                        <div class="card-block">
-                            <p class="card-text">of a card.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-block meal-title">
-                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
-                        </div>
-                        <img src="http://via.placeholder.com/300x200" alt="Card image">
-                        <div class="card-block">
-                            <p class="card-text">of a card.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-block meal-title">
-                            <h5 class="jumbotron-heading no-mb">Meal Name</h5>
-                        </div>
-                        <img src="http://via.placeholder.com/300x200" alt="Card image">
-                        <div class="card-block">
-                            <p class="card-text">of a card.</p>
-                        </div>
-                    </div>
-                </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No meals avalible.</p>
+                {% endif %}
             </div>
         </div>
 
@@ -144,7 +93,7 @@
         </footer>
 
     </body>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 </html>
