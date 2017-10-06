@@ -51,7 +51,7 @@ def create_meal(request):
         portions = request.POST['portions']
 
         #validate fields
-        if(not name or not price or not description or not portions):
+        if (not name or not price or not description or not portions):
             return message(False, "All fields must be provided to create a meal.")
             
         meal = Meal(
@@ -95,7 +95,7 @@ def rud_meal_by_id(request, meal_id):
         return message(True, meal.to_json())
     elif (request.method == 'POST'):
         for field, value in request.POST.items():
-            setattr(user, field, value)
+            setattr(meal, field, value)
         meal.save()
         return message(True, "Meal was updated")
     elif (request.method == 'DELETE'):

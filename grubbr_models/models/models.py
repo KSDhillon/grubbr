@@ -27,7 +27,7 @@ class Meal(models.Model):
     def to_json(self):
         return {
             'price': self.price,
-            'name': self.price,
+            'name': self.name,
             'description': self.description,
             'portions': self.portions,
         }
