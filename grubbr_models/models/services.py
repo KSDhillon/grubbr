@@ -118,3 +118,21 @@ def rud_meal_by_id(request, meal_id):
         return message(True, "Meal was deleled.")
     else:
         return message(False, "Cannot " + request.method + " to" + request.path)
+
+def login_user(request, uid, pwd):
+    try:
+        user = User.objects.get(user_id=uid)
+    except User.DoesNotExist:
+        return message(False, "User Does Not Exist")
+    if not user.check_password(pwd):
+        return message(False, "Username and password do not match")
+
+    # Username and password match, create authenticator
+    auth = Authenticator(user_id = user.id)
+
+    try:
+        auth.save()
+    except:
+        return message(False, "Could not create authenticator")
+
+    return message(True, auth.authenticator)
