@@ -33,3 +33,26 @@ class Meal(models.Model):
             'portions': self.portions,
             'id': self.id,
         }
+
+class Authenticator(models.Model):
+    user_id = models.CharField(max_length=200)
+    authenticator = models.CharField(primary_key=True, default=create_auth)
+    date_created = models.DateTimeField()
+
+import os
+import hmac
+import settings
+
+# Creates a unique authenticator string
+def create_auth():
+    while True:
+        authenticator = hmac.new(
+            key = settings.SECRET_KEY.encode('utf-8'),
+            msg = os.urandom(32),
+            digestmod = 'sha256',
+        ).hexdigest()
+
+        auth = Authenticators.objects.get(pk=authenticator)
+        if auth.DoesNotExist:
+            return authenticator
+    
