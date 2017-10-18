@@ -12,13 +12,13 @@ def message(success, result):
     return JsonResponse(res)
 
 @csrf_exempt
-def get_meals(request):
+def get_home_page(request):
     req = urllib.request.Request('http://models-api:8000/api/meal')
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
 
-def get_meal(request, meal_id):
+def get_detail_page(request, meal_id):
     req = urllib.request.Request('http://models-api:8000/api/meal/' + str(meal_id))
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
