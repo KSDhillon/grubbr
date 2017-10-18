@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
+from django.conf import settings
 import os
 import hmac
 
@@ -36,21 +37,21 @@ class Meal(models.Model):
             'id': self.id,
         }
 
-# Creates a unique authenticator string
-def create_auth():
-    while True:
-        authenticator = hmac.new(
-            key = settings.SECRET_KEY.encode('utf-8'),
-            msg = os.urandom(32),
-            digestmod = 'sha256',
-        ).hexdigest()
 
-        auth = Authenticators.objects.get(pk=authenticator)
-        if auth.DoesNotExist:
-            return authenticator
-    
 
 class Authenticator(models.Model):
     user_id = models.CharField(max_length=200) # user email
-    authenticator = models.CharField(primary_key=True, default=create_auth())
-    date_created = models.DateTimeField()
+    authenticator = models.CharField(primary_key=True, max_length = 200)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+# def create_auth():
+#     while True:
+#         authenticator = hmac.new(
+#             key = settings.SECRET_KEY.encode('utf-8'),
+#             msg = os.urandom(32),
+#             digestmod = 'sha256',
+#         ).hexdigest()
+#
+#         auth = Authenticator.objects.get(pk=authenticator)
+#         if auth.DoesNotExist:
+#             return authenticator

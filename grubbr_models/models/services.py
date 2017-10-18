@@ -119,18 +119,35 @@ def rud_meal_by_id(request, meal_id):
     else:
         return message(False, "Cannot " + request.method + " to" + request.path)
 
+def create_auth():
+    while True:
+        authenticator = hmac.new(
+            key = settings.SECRET_KEY.encode('utf-8'),
+            msg = os.urandom(32),
+            digestmod = 'sha256',
+        ).hexdigest()
+        try:
+            auth = Authenticator.objects.get(pk=authenticator)
+        except Authenticator.DoesNotExist:
+            return authenticator
+
 # Attempts to login using email and password, returns authenticator string if valid login
 @csrf_exempt
-def login_user(request, em, pwd):
+def login_user(request):
+    if (not request.POST['email'] or not request.POST['password']):
+        return message(False, "An email or password was not provided")
     try:
-        user = User.objects.get(email=em)
+        user = User.objects.get(email=request.POST['email'])
     except User.DoesNotExist:
         return message(False, "User Does Not Exist")
-    if not user.check_password(pwd):
+    if not user.check_password(request.POST['password']):
         return message(False, "Email and password do not match")
 
     # Username and password match, create authenticator
-    auth = Authenticator(user_id=user.email)
+    auth = Authenticator(
+        user_id=user.email,
+        authenticator = create_auth()
+    )
 
     try:
         auth.save()
