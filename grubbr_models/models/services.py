@@ -119,16 +119,18 @@ def rud_meal_by_id(request, meal_id):
     else:
         return message(False, "Cannot " + request.method + " to" + request.path)
 
-def login_user(request, uid, pwd):
+# Attempts to login using email and password, returns authenticator string if valid login
+@csrf_exempt
+def login_user(request, em, pwd):
     try:
-        user = User.objects.get(user_id=uid)
+        user = User.objects.get(email=em)
     except User.DoesNotExist:
         return message(False, "User Does Not Exist")
     if not user.check_password(pwd):
-        return message(False, "Username and password do not match")
+        return message(False, "Email and password do not match")
 
     # Username and password match, create authenticator
-    auth = Authenticator(user_id = user.id)
+    auth = Authenticator(user_id=user.email)
 
     try:
         auth.save()
