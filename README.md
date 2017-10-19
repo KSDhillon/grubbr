@@ -4,9 +4,27 @@ CS 4501 Project
 Group Members: Aadil Abbas, Karan Dhillon, Dan Kramp
 
 #TODO
-- Ask TA about links on docker-compose
-- Don’t store plaintext passwords in the database. In your create_user() function, you should hash the input password before storing it.
-- No input validation for create() functions.
-- Provide default values for your request.POST accesses. Use request.POST.get(‘key’, ‘default_val’) to achieve this.
-- ~~You created your own User model, which is fine (and will be necessary), but I would recommend subclassing it off of the Django AbstractBaseUser class so that things like authentication, sessions, and passing the user to each page in a template are taken care of for you).~~
+-for test cases, make sure to test for errors as well (passing in
+invalid data).
+(-1 point)
 
+-Should have validation on both sides of every pipeline
+(exp->web, models -> exp, etc.), at least checking status
+codes to make sure one of the services didn’t fail.
+(-2 points)
+
+-Id recommend abstracting out your GET and POST request functions to
+other layers so you don’t have to do the encode/decode json stuff
+in every view
+
+-Your EXP layer is supposed to be reflective of an entire
+page/experience of your site. For example, you should have a home
+page service that gathers all the data that your home page may need
+(popular items, user info, etc., instead of get_item and get_items
+that you currently have)
+(-2 points)
+
+-Instead of using template.render() in your web views, you can use
+the shortcut render() function that django provides that takes in a
+request, the template name, and the context dict you want to
+pass.
