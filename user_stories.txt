@@ -2,11 +2,12 @@
  2. As a user, I want to edit my profile so that I can update my information.
  3. As a user, I want to delete my account so that I can stop using the service.
  4. As a user, I want to access my profile so I can verify my information.
- 5. As a user, I want to create a meal so that I can sell it.
- 6. As a user, I want to edit a meal so that I can change information if necessary.
- 7. As a user, I want to delete a meal so that it can be removed if needed.
+ 5. As a user, I want to create a meal when logged in so that I can sell it.
+ 6. As a user, I want to edit a meal when logged in so that I can change information if necessary.
+ 7. As a user, I want to delete a meal when logged in so that it can be removed if needed.
  8. As a user, I want to access information about a meal so I can know its information.
-
+ 9. As a user, I want to login to my account so I can use the service.
+ 10. As a user, I want to view the homepage without having to login so I can decide if I want to sign up.
 
 ### Ignore everything below this
 1. As a user, I want to see available meals so that I know which ones are available for order.
