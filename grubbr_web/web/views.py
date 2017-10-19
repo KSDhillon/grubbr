@@ -21,3 +21,11 @@ def meal(request, meal_id):
         'data': json.loads(resp_json)["result"]
     }
     return HttpResponse(template.render(context, request))
+
+def login(request):
+    template = loader.get_template('login.html')
+    return HttpResponse(template.render(request))
+
+def register(request):
+    template = loader.get_template('register.html')
+    return HttpResponse(template.render(request))
