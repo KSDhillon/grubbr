@@ -19,8 +19,9 @@
                     <div class="card">
                         <div class="card-block">
                             <legend class="text-center">Log In</legend>
-                            <form>
-                                <div class="form-group input-group">
+                            <form action="/login/" method="post">
+                              <!--<div class="form-group input-group">
+				
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input type="text" class="form-control form-control lg" name="username" placeholder="Email">
                                 </div>
@@ -28,6 +29,9 @@
                                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                     <input type="text" class="form-control form-control lg" name="password" placeholder="Password">
                                 </div>
+				-->
+				{% csrf_token %}
+				{{ form }}
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-info btn-lg btn-block">Login</button>
                                 </div>
