@@ -31,13 +31,22 @@ def create_account(request):
     return message(res["success"], res["result"])
 
 def logout(request):
+    if request.method != "POST":
+        return HttpResponse("Must be POST request")
+
+        
     req = urllib.request.Request('')
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
 
 def login(request):
-    req = urllib.request.Request('')
+    if request.method != "POST":
+        return HttpResponse("Must be POST request")
+
+    login_data =  urllib.parse.urlencode({"email": request.POST["email"], "password": request.POST["password"]}).encode('utf-8')
+
+    req = urllib.request.Request('http://models-api:8000/api/login/', login_data)
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
