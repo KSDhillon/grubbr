@@ -23,3 +23,27 @@ def get_detail_page(request, meal_id):
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
+
+def create_account(request):
+    req = urllib.request.Request('')
+    res_json = urllib.request.urlopen(req).read().decode('utf-8')
+    res = json.loads(res_json)
+    return message(res["success"], res["result"])
+
+def logout(request):
+    req = urllib.request.Request('')
+    res_json = urllib.request.urlopen(req).read().decode('utf-8')
+    res = json.loads(res_json)
+    return message(res["success"], res["result"])
+
+def login(request):
+    req = urllib.request.Request('')
+    res_json = urllib.request.urlopen(req).read().decode('utf-8')
+    res = json.loads(res_json)
+    return message(res["success"], res["result"])
+
+def create_new_listing(request):
+    req = urllib.request.Request('')
+    res_json = urllib.request.urlopen(req).read().decode('utf-8')
+    res = json.loads(res_json)
+    return message(res["success"], res["result"])
