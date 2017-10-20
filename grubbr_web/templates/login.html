@@ -31,7 +31,10 @@
                                 </div>
 				-->
 				{% csrf_token %}
-				{{ form }}
+			      {{ form }}
+			      {% if error %}
+			      <span>{{ error }}</span>
+			      {% endif %}
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-info btn-lg btn-block">Login</button>
                                 </div>

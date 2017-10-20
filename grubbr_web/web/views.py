@@ -1,4 +1,6 @@
 from django.shortcuts import render, HttpResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 import urllib.request
 import urllib.parse
 from django.template import loader
@@ -42,7 +44,7 @@ def login(request):
     resp = json.loads(res)
 
     if not resp or not resp['success']: # If login unsuccessful
-        return render(request, 'login.html', {'error': resp['result'] or "Error logging in"})
+        return render(request, 'login.html', {'error': resp['result'] or "Error logging in", 'form': forms.LoginForm()})
     
     auth = resp['result']
 
