@@ -46,9 +46,9 @@ def createMeal(request):
     resp = json.loads(res)
 
     if not resp or not resp['success']: # If login unsuccessful
-        return render(request, 'createmeal.html', {'error': resp['result'] or "Could not create meal", 'form': forms.LoginForm()})
+        return render(request, 'createmeal.html', {'error': resp['result'] or "Could not create meal", 'form': forms.CreateMealForm()})
 
-    return render(request, 'createmeal.html', {'created': True, 'form': forms.LoginForm()})
+    return render(request, 'createmeal.html', {'created': True, 'form': forms.CreateMealForm()})
 
 def login(request):
 
