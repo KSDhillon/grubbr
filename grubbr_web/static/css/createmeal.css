@@ -3,10 +3,6 @@ body {
     height: 100%
 }
 
-#nav-logo {
-    font-size: 30px;
-}
-
 #myFooter {
     background-color: #3c3d41;
     color: white;
@@ -23,4 +19,12 @@ body {
 
 #meal-container {
     margin-top: 2rem;
+}
+
+#nav-logo {
+    font-size: 30px;
+}
+
+.create-container {
+    padding-top: 15%;
 }

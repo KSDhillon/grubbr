@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html>
     <head>
         <meta charset="utf-8">
@@ -7,7 +8,7 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="/static/css/meal.css">
+        <link rel="stylesheet" href="{% static "css/createmeal.css" %}">
     </head>
     <body>
 
@@ -30,38 +31,46 @@
             </div>
         </nav>
 
-        <div class="container" id="meal-container">
-            {% if data.name %}
-                <div class="row">
-                    <div class="card-group">
-                        <div class="col-md-5">
-                            <div class="card">
-                                <img src="http://via.placeholder.com/300x300" alt="Card image">
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="card">
-                                <div class="card-block">
-                                    <h4 class="card-title">{{data.name}}</h4>
-                                    <p class="card-text">{{data.description}}</p>
-                                    <p class="card-text">{{data.price}}</p>
+        <div class="container">
+            <div class="row create-container">
+                <div class="col-md-8 offset-md-2">
+                    <div class="card">
+                        <div class="card-block">
+                            <legend class="text-center">Create a meal!</legend>
+                            <form action="/login/" method="post">
+
+                				{% csrf_token %}
+                                {% if error %}
+                                    <div class="alert alert-danger" role="alert">
+                                        <strong>ERROR!</strong> {{ error }}
+                                    </div>
+                                {% endif %}
+                                {% if created %}
+                                    <div class="alert alert-success" role="alert">
+                                        <strong>Sucess!</strong> You meal was created.
+                                    </div>
+                                {% endif %}
+                			    {{ form }}
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success btn-lg btn-block">Create</button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            {% else %}
-                <p>Meal not found</p>
-            {% endif %}
+            </div>
         </div>
+
         <footer id="myFooter" class="fixed-bottom">
 
             <div class="footer-copyright">
                 <p>Copyright © 2017 Grubbr | All rights reserved.</p>
             </div>
         </footer>
+
     </body>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 </html>

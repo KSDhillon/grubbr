@@ -19,10 +19,10 @@
                     <div class="card">
                         <div class="card-block">
                           <legend class="text-center">Sign Up</legend>
-			  {% if error %}			   
+			  {% if error %}
 			  <div class="alert alert-danger">{{ error }}</div>
 			  {% endif %}
-			  {% if success %}			   
+			  {% if success %}
 			  <div class="alert alert-success">{{ success }}</div>
 			  {% endif %}
                             <form action="/register/" method="post">
@@ -48,7 +48,7 @@
                             </form>
                         </div>
                     </div>
-                    <p class="text-center">Already have an account? <a href="#">Login!</a></p>
+                    <p class="text-center">Already have an account? <a href="/login/">Login!</a></p>
                 </div>
             </div>
         </div>
