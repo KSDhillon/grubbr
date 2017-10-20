@@ -63,7 +63,16 @@ def login(request):
     return message(res["success"], res["result"])
 
 def create_new_listing(request):
-    req = urllib.request.Request('')
+    if request.method != "POST":
+        return HttpResponse("Must be POST request")
+
+    meal_data =  urllib.parse.urlencode({"name": request.POST["name"], 
+        "price": request.POST["price"],
+        "description": request.POST["description"],
+        "portions": request.POST["portions"],
+        }).encode('utf-8')
+
+    req = urllib.request.Request('http://models-api:8000/api/meal/', meal_data)
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
