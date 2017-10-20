@@ -158,16 +158,17 @@ def login_user(request):
 
     return message(True, auth.authenticator)
 
+@csrf_exempt
 def logout_user(request):
     if request.method == 'GET':
         return message(False, "Cannot make GET request for logout")
-    
+
     try:
-        auth = Authenticators.objects.get(pk=request.POST['auth'])
+        auth = Authenticator.objects.get(pk=request.POST['auth'])
     except:
-        return message(False, "Authenticator does not exist")
+        return message(False, "Authenticator does not exis")
     auth.delete()
-    
+
     return message(True, "User logged out")
 
 def authenticate(request):
