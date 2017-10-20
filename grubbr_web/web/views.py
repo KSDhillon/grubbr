@@ -10,8 +10,10 @@ from . import forms
 def home(request):
     req = urllib.request.Request('http://exp-api:8000/api/meals')
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    res = json.loads(resp_json)
     context = {
-        'data': json.loads(resp_json)["result"]
+        'data': res['result']['meals'],
+        'auth': res['result']['auth']
     }
     return render(request, 'home.html', context)
 
@@ -26,13 +28,6 @@ def meal(request, meal_id):
 def createMeal(request):
 
     if not isAuth(request):
-        return HttpResponseRedirect(reverse('login'))
-    
-    req = urllib.request.Request('http://exp-api:8000/api/auth/')
-    res = urllib.request.urlopen(req).read().decode('utf-8')
-    resp = json.loads(res)
-
-    if not resp['success']:
         return HttpResponseRedirect(reverse('login'))
     
     if request.method == 'GET':
@@ -64,7 +59,7 @@ def createMeal(request):
 def isAuth(request):
     if not request.COOKIES.get('auth'):
         return False
-    data_enc = urllib.parse.urlencode([('auth', request.COOKIES.get('auth'))]).encode('utf-8')
+    data_enc = urllib.parse.urlencode({'auth': request.COOKIES.get('auth')}).encode('utf-8')
     req = urllib.request.Request('http://exp-api:8000/api/auth/', data_enc)
     res = urllib.request.urlopen(req).read().decode('utf-8')
 

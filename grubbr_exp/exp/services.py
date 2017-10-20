@@ -15,7 +15,8 @@ def get_home_page(request):
     req = urllib.request.Request('http://models-api:8000/api/meal')
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
-    return message(res["success"], res["result"])
+    
+    return message(res["success"], {'meals': res["result"], 'auth': check_auth(request)})
 
 def get_detail_page(request, meal_id):
     req = urllib.request.Request('http://models-api:8000/api/meal/' + str(meal_id))
@@ -82,11 +83,15 @@ def create_new_listing(request):
     return message(res["success"], res["result"])
 
 def is_authenticated(request):
+
+    return message(check_auth(request), "auth status")
+
+def check_auth(request):
     if request.method == 'POST' and request.POST['auth']:
-        authentication = urllib.parse.urlencode({"auth": request.POST['auth']})
+        authentication = urllib.parse.urlencode({"auth": request.POST['auth']}).encode('utf-8')
 
         req = urllib.request.Request('http://models-api:8000/api/authenticate/', authentication)
         res_json = urllib.request.urlopen(req).read().decode('utf-8')
         res = json.loads(res_json)
-        return message(res["success"], res["result"])
-    return message(False, "not authenticated")
+        return res['success']
+    return False
