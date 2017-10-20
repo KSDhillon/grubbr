@@ -19,12 +19,12 @@
                     <div class="card">
                         <div class="card-block">
                           <legend class="text-center">Log In</legend>
-			  {% if error %}			   
+			  {% if error %}
 			  <div class="alert alert-danger">{{ error }}</div>
 			  {% endif %}
                             <form action="/login/" method="post">
                               <!--<div class="form-group input-group">
-				
+
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input type="text" class="form-control form-control lg" name="username" placeholder="Email">
                                 </div>
@@ -41,7 +41,7 @@
                             </form>
                         </div>
                     </div>
-                    <p class="text-center">Haven't created an account? <a href="#">Sign Up!</a></p>
+                    <p class="text-center">Haven't created an account? <a href="/register/">Sign Up!</a></p>
                 </div>
             </div>
         </div>

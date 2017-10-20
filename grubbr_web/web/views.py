@@ -23,11 +23,38 @@ def meal(request, meal_id):
     }
     return render(request, 'meal.html', context)
 
+def createMeal(request):
+    if request.method == 'GET':
+        return render(request, 'createmeal.html', {'form': forms.CreateMealForm()})
+
+    form = forms.CreateMealForm(request.POST)
+
+    if not form.is_valid():
+        return render(request, 'createmeal.html')
+
+    name = form.cleaned_data['name']
+    price = form.cleaned_data['price']
+    description = form.cleaned_data['description']
+    portions = form.cleaned_data['portions']
+
+    data_enc = urllib.parse.urlencode([('name', name), ('price', price), ('description', description), ('portions', portions)]).encode('utf-8')
+
+    req = urllib.request.Request('http://exp-api:8000/api/createmeal/', data_enc)
+
+    res = urllib.request.urlopen(req).read().decode('utf-8')
+
+    resp = json.loads(res)
+
+    if not resp or not resp['success']: # If login unsuccessful
+        return render(request, 'createmeal.html', {'error': resp['result'] or "Could not create meal", 'form': forms.LoginForm()})
+
+    return render(request, 'createmeal.html', {'created': True, 'form': forms.LoginForm()})
+
 def login(request):
 
     if request.method == 'GET':
         return render(request, 'login.html', {'form': forms.LoginForm()})
-    
+
     form = forms.LoginForm(request.POST)
 
     if not form.is_valid():
@@ -45,19 +72,19 @@ def login(request):
 
     if not resp or not resp['success']: # If login unsuccessful
         return render(request, 'login.html', {'error': resp['result'] or "Error logging in", 'form': forms.LoginForm()})
-    
+
     auth = resp['result']
 
     response = HttpResponseRedirect(reverse('home'))
     response.set_cookie("auth", auth)
-    
+
     return response
 
 def register(request):
 
     if request.method == 'GET':
         return render(request, 'register.html', {'form': forms.RegisterForm()})
-    
+
     form = forms.RegisterForm(request.POST)
 
     if not form.is_valid():

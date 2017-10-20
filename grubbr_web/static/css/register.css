@@ -4,5 +4,9 @@ body {
 }
 
 .row {
-    padding-top: 20%;
+    padding-top: 15%;
+}
+
+#nav-logo {
+    font-size: 30px;
 }
