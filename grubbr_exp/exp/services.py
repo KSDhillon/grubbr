@@ -40,11 +40,21 @@ def create_account(request):
     return message(res["success"], res["result"])
 
 def logout(request):
+    if request.method != "POST":
+        return HttpResponse("Must be POST request")
+
+        
+    req = urllib.request.Request('')
+    res_json = urllib.request.urlopen(req).read().decode('utf-8')
+    res = json.loads(res_json)
+    return message(res["success"], res["result"])
+
      if request.method != "POST":
          return HttpResponse("Must be POST request")
 
-        
-     req = urllib.request.Request('')
+     cookie =  urllib.parse.urlencode(("auth", request.POST['auth'])).encode('utf-8')
+
+     req = urllib.request.Request('http://models-api:8000/api/logout/', cookie)
      res_json = urllib.request.urlopen(req).read().decode('utf-8')
      res = json.loads(res_json)
      return message(res["success"], res["result"])
@@ -65,4 +75,14 @@ def create_new_listing(request):
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
+
+def is_authenticated(request):
+    auth = request.COOKIES.get['auth']
+    authentication = urllib.parse.urlencode({"auth": request.POST['auth']})
+
+    req = urllib.request.Request('http://models-api:8000/api/authenticate/', authentication)
+    res_json = urllib.request.urlopen(req).read().decode('utf-8')
+    res = json.loads(res_json)
+    return message(res["success"], res["result"])
+
 

@@ -107,4 +107,15 @@ def register(request):
 
     # Created successfully, direct to login
     return HttpResponseRedirect(reverse('login'))
-#    return render(request, 'login.html', {'success': 'Account created successfully! Login below:'})
+
+def logout(request):
+
+    data_enc = urllib.parse.urlencode([('auth', request.COOKIES['auth'])]).encode('utf-8')
+    req = urllib.request.Request('http://exp-api:8000/api/logout/', data_enc)
+
+    res = urllib.request.urlopen(req).read().decode('utf-8')
+
+    resp = HttpResponseRedirect(reverse('home'))
+    resp.delete_cookie('auth')
+
+    return resp
