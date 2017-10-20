@@ -28,7 +28,7 @@ def create_account(request):
     if request.method != "POST":
         return HttpResponse("Must be POST request")
 
-    signup_data =  urllib.parse.urlencode({"email": request.POST["email"], 
+    signup_data =  urllib.parse.urlencode({"email": request.POST["email"],
         "password": request.POST["password"],
         "first_name": request.POST["first_name"],
         "last_name": request.POST["last_name"],
@@ -44,7 +44,9 @@ def logout(request):
     if request.method != "POST":
          return HttpResponse("Must be POST request")
 
-    cookie =  urllib.parse.urlencode(("auth", request.POST['auth'])).encode('utf-8')
+    cook_dict = { 'auth': request.POST['auth'] }
+
+    cookie =  urllib.parse.urlencode(cook_dict).encode('utf-8')
 
     req = urllib.request.Request('http://models-api:8000/api/logout/', cookie)
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
@@ -85,5 +87,3 @@ def is_authenticated(request):
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
-
-
