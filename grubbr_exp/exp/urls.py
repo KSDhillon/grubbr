@@ -8,5 +8,4 @@ urlpatterns = [
     url(r'^logout/$', logout, name='exp_logout'),
     url(r'^register/$', create_account, name='register'),
 
-
 ]

@@ -43,12 +43,13 @@ def logout(request):
      if request.method != "POST":
          return HttpResponse("Must be POST request")
 
-        
-     req = urllib.request.Request('')
+     cookie =  urllib.parse.urlencode(("auth", request.POST['auth'])).encode('utf-8')
+
+     req = urllib.request.Request('http://models-api:8000/api/logout/', cookie)
      res_json = urllib.request.urlopen(req).read().decode('utf-8')
      res = json.loads(res_json)
      return message(res["success"], res["result"])
-
+     
 def login(request):
     if request.method != "POST":
         return HttpResponse("Must be POST request")

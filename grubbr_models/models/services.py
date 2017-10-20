@@ -134,6 +134,8 @@ def create_auth():
 # Attempts to login using email and password, returns authenticator string if valid login
 @csrf_exempt
 def login_user(request):
+    if request.method == 'GET':
+        return message(False, "Cannot make GET request for login")
     if (not request.POST['email'] or not request.POST['password']):
         return message(False, "An email or password was not provided")
     try:
@@ -157,7 +159,27 @@ def login_user(request):
     return message(True, auth.authenticator)
 
 def logout_user(request):
-    return
+    if request.method == 'GET':
+        return message(False, "Cannot make GET request for logout")
+    
+    try:
+        auth = Authenticators.objects.get(pk=request.POST['auth'])
+    except:
+        return message(False, "Authenticator does not exist")
+    auth.delete()
+    
+    return message(True, "User logged out")
 
 def authenticate(request):
-    return
+    if request.method == 'GET':
+        return message(False, "Cannot make GET request for authentication")
+
+    if not request.POST['auth']:
+        return message(False, "No authenticator passed")
+
+    try:
+        auth = Authenticator.objects.get(pk=request.POST['auth'])
+    except Authenticator.DoesNotExist:
+        return message(False, "Authentication not recognized")
+
+    return message(True, "Authentication valid")
