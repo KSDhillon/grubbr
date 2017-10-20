@@ -76,3 +76,13 @@ def create_new_listing(request):
     res = json.loads(res_json)
     return message(res["success"], res["result"])
 
+def is_authenticated(request):
+    auth = request.COOKIES.get['auth']
+    authentication = urllib.parse.urlencode({"auth": request.POST['auth']})
+
+    req = urllib.request.Request('http://models-api:8000/api/authenticate/', authentication)
+    res_json = urllib.request.urlopen(req).read().decode('utf-8')
+    res = json.loads(res_json)
+    return message(res["success"], res["result"])
+
+
