@@ -155,3 +155,9 @@ def login_user(request):
         return message(False, "Could not create authenticator")
 
     return message(True, auth.authenticator)
+
+def logout_user(request):
+    return
+
+def authenticate(request):
+    return
