@@ -18,8 +18,15 @@
                     <h1 class="logo text-center">GRUBBR</h1>
                     <div class="card">
                         <div class="card-block">
-                            <legend class="text-center">Sign Up</legend>
-                            <form>
+                          <legend class="text-center">Sign Up</legend>
+			  {% if error %}			   
+			  <div class="alert alert-danger">{{ error }}</div>
+			  {% endif %}
+			  {% if success %}			   
+			  <div class="alert alert-success">{{ success }}</div>
+			  {% endif %}
+                            <form action="/register/" method="post">
+			      <!--
                                 <div class="form-group input-group">
                                     <input type="text" class="form-control form-control lg" name="username" placeholder="Email">
                                 </div>
@@ -32,6 +39,9 @@
                                 <div class="form-group input-group">
                                     <input type="text" class="form-control form-control lg" name="lastname" placeholder="Last Name">
                                 </div>
+				-->
+			      {% csrf_token %}
+			      {{ form }}
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-info btn-lg btn-block">Register</button>
                                 </div>

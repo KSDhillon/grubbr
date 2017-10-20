@@ -55,4 +55,28 @@ def login(request):
 
 def register(request):
 
-    return render(request, 'register.html', context)
+    if request.method == 'GET':
+        return render(request, 'register.html', {'form': forms.RegisterForm()})
+    
+    form = forms.RegisterForm(request.POST)
+
+    if not form.is_valid():
+        return render(request, 'register.html') # send an error if not valid
+
+    email = form.cleaned_data['email']
+    password = form.cleaned_data['password']
+    first_name = form.cleaned_data['first_name']
+    last_name = form.cleaned_data['last_name']
+
+    data_enc = urllib.parse.urlencode([('email', email), ('password', password), ('first_name', first_name), ('last_name', last_name)]).encode('utf-8')
+    req = urllib.request.Request('http://exp-api:8000/api/register/', data_enc)
+
+    res = urllib.request.urlopen(req).read().decode('utf-8')
+
+    resp = json.loads(res)
+
+    if not resp or not resp['success']: # If register unsuccessful
+        return render(request, 'register.html', {'error': resp['result'] or "Error creating user", 'form': forms.RegisterForm()})
+
+    # Created successfully, direct to login
+    return render(request, 'login.html', {'success': 'Account created successfully! Login below:'})

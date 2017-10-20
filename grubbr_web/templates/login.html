@@ -18,7 +18,10 @@
                     <h1 class="logo text-center">GRUBBR</h1>
                     <div class="card">
                         <div class="card-block">
-                            <legend class="text-center">Log In</legend>
+                          <legend class="text-center">Log In</legend>
+			  {% if error %}			   
+			  <div class="alert alert-danger">{{ error }}</div>
+			  {% endif %}
                             <form action="/login/" method="post">
                               <!--<div class="form-group input-group">
 				
@@ -32,9 +35,6 @@
 				-->
 				{% csrf_token %}
 			      {{ form }}
-			      {% if error %}
-			      <span>{{ error }}</span>
-			      {% endif %}
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-info btn-lg btn-block">Login</button>
                                 </div>
