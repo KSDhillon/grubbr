@@ -24,6 +24,17 @@ def meal(request, meal_id):
     return render(request, 'meal.html', context)
 
 def createMeal(request):
+
+    if not isAuth(request):
+        return HttpResponseRedirect(reverse('login'))
+    
+    req = urllib.request.Request('http://exp-api:8000/api/auth/')
+    res = urllib.request.urlopen(req).read().decode('utf-8')
+    resp = json.loads(res)
+
+    if not resp['success']:
+        return HttpResponseRedirect(reverse('login'))
+    
     if request.method == 'GET':
         return render(request, 'createmeal.html', {'form': forms.CreateMealForm()})
 
@@ -49,6 +60,16 @@ def createMeal(request):
         return render(request, 'createmeal.html', {'error': resp['result'] or "Could not create meal", 'form': forms.CreateMealForm()})
 
     return render(request, 'createmeal.html', {'created': True, 'form': forms.CreateMealForm()})
+
+def isAuth(request):
+    if not request.COOKIES.get('auth'):
+        return False
+    data_enc = urllib.parse.urlencode([('auth', request.COOKIES.get('auth'))]).encode('utf-8')
+    req = urllib.request.Request('http://exp-api:8000/api/auth/', data_enc)
+    res = urllib.request.urlopen(req).read().decode('utf-8')
+
+    resp = json.loads(res)
+    return resp['success']
 
 def login(request):
 
