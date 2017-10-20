@@ -34,8 +34,7 @@ def create_account(request):
         "last_name": request.POST["last_name"],
         }).encode('utf-8')
 
-
-    req = urllib.request.Request('http://models-api:8000/api/user/')
+    req = urllib.request.Request('http://models-api:8000/api/user/', signup_data)
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
