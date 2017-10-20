@@ -79,4 +79,5 @@ def register(request):
         return render(request, 'register.html', {'error': resp['result'] or "Error creating user", 'form': forms.RegisterForm()})
 
     # Created successfully, direct to login
-    return render(request, 'login.html', {'success': 'Account created successfully! Login below:'})
+    return HttpResponseRedirect(reverse('login'))
+#    return render(request, 'login.html', {'success': 'Account created successfully! Login below:'})
