@@ -25,20 +25,30 @@ def get_detail_page(request, meal_id):
     return message(res["success"], res["result"])
 
 def create_account(request):
-    req = urllib.request.Request('')
-    res_json = urllib.request.urlopen(req).read().decode('utf-8')
-    res = json.loads(res_json)
-    return message(res["success"], res["result"])
-
-def logout(request):
     if request.method != "POST":
         return HttpResponse("Must be POST request")
 
-        
-    req = urllib.request.Request('')
+    signup_data =  urllib.parse.urlencode({"email": request.POST["email"], 
+        "password": request.POST["password"],
+        "first_name": request.POST["first_name"],
+        "last_name": request.POST["last_name"],
+        }).encode('utf-8')
+
+
+    req = urllib.request.Request('http://models-api:8000/api/user/')
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
+
+# def logout(request):
+#     if request.method != "POST":
+#         return HttpResponse("Must be POST request")
+
+        
+#     req = urllib.request.Request('')
+#     res_json = urllib.request.urlopen(req).read().decode('utf-8')
+#     res = json.loads(res_json)
+#     return message(res["success"], res["result"])
 
 def login(request):
     if request.method != "POST":
