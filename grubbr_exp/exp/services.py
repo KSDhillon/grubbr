@@ -11,7 +11,20 @@ def message(success, result):
     }
     return JsonResponse(res)
 
-@csrf_exempt
+def login_required(f):
+    def wrap(request, *args, **kwargs):
+
+        # try authenticating the user
+        resp = is_authenticated(request)
+
+        # authentication failed
+        if not resp['success']:
+            # redirect the user to the login page
+            return HttpResponseRedirect(reverse('login'))
+        else:
+            return f(request, *args, **kwargs)
+    return wrap
+
 def get_home_page(request):
     req = urllib.request.Request('http://models-api:8000/api/meal')
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
@@ -39,6 +52,7 @@ def create_account(request):
     res = json.loads(res_json)
     return message(res["success"], res["result"])
 
+@login_required
 def logout(request):
 
     if request.method != "POST":
@@ -64,6 +78,7 @@ def login(request):
     res = json.loads(res_json)
     return message(res["success"], res["result"])
 
+@login_required
 def create_new_listing(request):
     if request.method != "POST":
         return HttpResponse("Must be POST request")
