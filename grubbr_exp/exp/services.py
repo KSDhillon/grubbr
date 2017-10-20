@@ -41,7 +41,6 @@ def create_account(request):
     return message(res["success"], res["result"])
 
 def logout(request):
-<<<<<<< HEAD
     if request.method != "POST":
         return HttpResponse("Must be POST request")
 
@@ -50,7 +49,7 @@ def logout(request):
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     res = json.loads(res_json)
     return message(res["success"], res["result"])
-=======
+
      if request.method != "POST":
          return HttpResponse("Must be POST request")
 
@@ -59,7 +58,7 @@ def logout(request):
      res_json = urllib.request.urlopen(req).read().decode('utf-8')
      res = json.loads(res_json)
      return message(res["success"], res["result"])
->>>>>>> b05278a878488213c0d004a51b937b3fa314d52d
+
 
 def login(request):
     if request.method != "POST":
