@@ -20,14 +20,14 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     {% if auth %}
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/create">Create Meal</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </li>
-                    </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/create">Create Meal</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">Logout</a>
+                            </li>
+                        </ul>
                     {% else %}
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
@@ -48,10 +48,10 @@
                 <p class="lead text-muted">A Marketplace where you can buy or sell homecooked meals. <br />Affordable | Healthy | Fun</p>
                 <p>
                     {% if auth %}
-                    <a href="#" class="btn btn-success">Create a Meal</a>
+                        <a href="#" class="btn btn-success">Create a Meal</a>
                     {% else %}
-                    <a href="#" class="btn btn-info">Useless Button</a>
-                    <a href="#" class="btn btn-secondary">Learn More</a>
+                        <a href="#" class="btn btn-info">Useless Button</a>
+                        <a href="#" class="btn btn-secondary">Learn More</a>
                     {% endif %}
                 </p>
             </div>
