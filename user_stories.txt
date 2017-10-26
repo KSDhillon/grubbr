@@ -8,11 +8,11 @@
  8. As a user, I want to access information about a meal so I can know its information.
  9. As a user, I want to login to my account so I can use the service.
  10. As a user, I want to view the homepage without having to login so I can decide if I want to sign up.
+ 11. As a user, I want to create an account so that I can buy and sell meals.
+ 12. As a user, I want to login to an account so that I can view the meals associated with my account.
 
 ### Ignore everything below this
 1. As a user, I want to see available meals so that I know which ones are available for order.
 2. As a user, I want to see details about a particular meal so that I can decide if I will order it.
 3. As a user, I want to display meals I am selling to other users so that they can order them.
 4. As a user, I want to sell meals to other users so that I can earn money for them.
-5. As a user, I want to create an account so that I can buy and sell meals.
-6. As a user, I want to login to an account so that I can view the meals associated with my account.
