@@ -19,7 +19,11 @@ def make_request(url, data={}):
     return json.loads(res_json)
 
 def home(request):
-    res = make_request('http://exp-api:8000/api/meals')
+    data = {}
+    if request.COOKIES.get('auth'):
+        data = {'auth': request.COOKIES.get('auth')}
+    
+    res = make_request('http://exp-api:8000/api/meals/', data)
     context = {
         'data': res['result']['meals'],
         'auth': res['result']['auth']
