@@ -7,10 +7,19 @@ from django.template import loader
 import json
 from . import forms
 
+# Makes a request (POST if data is sent, GET else) and returns the response as a dict
+def make_request(url, data={}):
+    if data:
+        enc_data = urllib.parse.urlencode(data).encode('utf-8')
+        req = urllib.request.Request(url, enc_data)
+    else:
+        req = urllib.request.Request(url)
+        
+    res_json = urllib.request.urlopen(req).read().decode('utf-8')
+    return json.loads(res_json)
+
 def home(request):
-    req = urllib.request.Request('http://exp-api:8000/api/meals')
-    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-    res = json.loads(resp_json)
+    res = make_request('http://exp-api:8000/api/meals')
     context = {
         'data': res['result']['meals'],
         'auth': res['result']['auth']
@@ -18,10 +27,9 @@ def home(request):
     return render(request, 'home.html', context)
 
 def meal(request, meal_id):
-    req = urllib.request.Request('http://exp-api:8000/api/meal/' + str(meal_id))
-    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    res = make_request('http://exp-api:8000/api/meal/' + str(meal_id))
     context = {
-        'data': json.loads(resp_json)["result"]
+        'data': res["result"]
     }
     return render(request, 'meal.html', context)
 
@@ -43,28 +51,24 @@ def createMeal(request):
     description = form.cleaned_data['description']
     portions = form.cleaned_data['portions']
 
-    data_enc = urllib.parse.urlencode([('name', name), ('price', price), ('description', description), ('portions', portions)]).encode('utf-8')
+    data = {'name': name,
+            'price': price,
+            'description': description,
+            'portions': portions}
+    res = make_request('http://exp-api:8000/api/createmeal/', data)
 
-    req = urllib.request.Request('http://exp-api:8000/api/createmeal/', data_enc)
-
-    res = urllib.request.urlopen(req).read().decode('utf-8')
-
-    resp = json.loads(res)
-
-    if not resp or not resp['success']: # If login unsuccessful
-        return render(request, 'createmeal.html', {'error': resp['result'] or "Could not create meal", 'form': forms.CreateMealForm()})
+    if not res or not res['success']: # If login unsuccessful
+        return render(request, 'createmeal.html', {'error': res['result'] or "Could not create meal", 'form': forms.CreateMealForm()})
 
     return render(request, 'createmeal.html', {'created': True, 'form': forms.CreateMealForm()})
 
 def isAuth(request):
     if not request.COOKIES.get('auth'):
         return False
-    data_enc = urllib.parse.urlencode({'auth': request.COOKIES.get('auth')}).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/api/auth/', data_enc)
-    res = urllib.request.urlopen(req).read().decode('utf-8')
+    data = {'auth': request.COOKIES.get('auth')}
 
-    resp = json.loads(res)
-    return resp['success']
+    res = make_request('http://exp-api:8000/api/auth/', data)
+    return res['success']
 
 def login(request):
 
@@ -79,17 +83,13 @@ def login(request):
     email = form.cleaned_data['email']
     password = form.cleaned_data['password']
 
-    data_enc = urllib.parse.urlencode([('email', email), ('password', password)]).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/api/login/', data_enc)
+    data = {'email': email, 'password': password}
+    res = make_request('http://exp-api:8000/api/login/', data)
 
-    res = urllib.request.urlopen(req).read().decode('utf-8')
+    if not res or not res['success']: # If login unsuccessful
+        return render(request, 'login.html', {'error': res['result'] or "Error logging in", 'form': forms.LoginForm()})
 
-    resp = json.loads(res)
-
-    if not resp or not resp['success']: # If login unsuccessful
-        return render(request, 'login.html', {'error': resp['result'] or "Error logging in", 'form': forms.LoginForm()})
-
-    auth = resp['result']
+    auth = res['result']
 
     response = HttpResponseRedirect(reverse('home'))
     response.set_cookie("auth", auth)
@@ -111,25 +111,22 @@ def register(request):
     first_name = form.cleaned_data['first_name']
     last_name = form.cleaned_data['last_name']
 
-    data_enc = urllib.parse.urlencode([('email', email), ('password', password), ('first_name', first_name), ('last_name', last_name)]).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/api/register/', data_enc)
+    data = {'email': email,
+            'password': password,
+            'first_name': first_name,
+            'last_name': last_name}
+    res = make_request('http://exp-api:8000/api/register/', data)
 
-    res = urllib.request.urlopen(req).read().decode('utf-8')
-
-    resp = json.loads(res)
-
-    if not resp or not resp['success']: # If register unsuccessful
-        return render(request, 'register.html', {'error': resp['result'] or "Error creating user", 'form': forms.RegisterForm()})
+    if not res or not res['success']: # If register unsuccessful
+        return render(request, 'register.html', {'error': res['result'] or "Error creating user", 'form': forms.RegisterForm()})
 
     # Created successfully, direct to login
     return HttpResponseRedirect(reverse('login'))
 
 def logout(request):
 
-    data_enc = urllib.parse.urlencode([('auth', request.COOKIES['auth'])]).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/api/logout/', data_enc)
-
-    res = urllib.request.urlopen(req).read().decode('utf-8')
+    data = {'auth': request.COOKIES['auth']}
+    res = make_request('http://exp-api:8000/api/logout/', data)
 
     resp = HttpResponseRedirect(reverse('home'))
     resp.delete_cookie('auth')
