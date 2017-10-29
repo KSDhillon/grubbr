@@ -76,13 +76,16 @@ def isAuth(request):
 
 def login(request):
 
+    if isAuth(request):
+        return HttpResponseRedirect(reverse('home'))
+    
     if request.method == 'GET':
         return render(request, 'login.html', {'form': forms.LoginForm()})
 
     form = forms.LoginForm(request.POST)
 
     if not form.is_valid():
-        return render(request, 'login.html') # send an error if not valid
+        return render(request, 'login.html', {'form': forms.LoginForm(), 'error': "Please enter a valid email."}) # send an error if not valid
 
     email = form.cleaned_data['email']
     password = form.cleaned_data['password']
