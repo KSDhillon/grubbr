@@ -1,6 +1,9 @@
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.hashers import make_password
 from django.views.decorators.csrf import csrf_exempt
+from django.db import IntegrityError
+import datetime
+from datetime import timedelta
 from .models import *
 
 def message(success, result):
@@ -34,8 +37,10 @@ def create_user(request):
         )
         try:
             user.save()
+        except IntegrityError:
+            return message(False, "Account with this email already exists.")
         except:
-            return message(False, "There was an error saving user to database.")
+            return message(False, "There was an error creating this user.")
         return message(True, "User was created.")
     elif (request.method == 'GET'):
         users = User.objects.all()
@@ -182,5 +187,15 @@ def authenticate(request):
         auth = Authenticator.objects.get(pk=request.POST['auth'])
     except Authenticator.DoesNotExist:
         return message(False, "Authentication not recognized")
+
+    created = auth.date_created
+    now = datetime.datetime.now(created.tzinfo)
+    timePassed = now - created
+    if timePassed.seconds > 30:
+        auth.delete()
+        return message(False, "Timed out")
+    else:
+        auth.date_created = now
+        auth.save()
 
     return message(True, "Authentication valid")
