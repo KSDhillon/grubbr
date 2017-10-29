@@ -191,10 +191,10 @@ def authenticate(request):
     created = auth.date_created
     now = datetime.datetime.now(created.tzinfo)
     timePassed = now - created
-    if timePassed.seconds > 30:
+    if timePassed.seconds > 600: # Timeout seconds: 10 min
         auth.delete()
         return message(False, "Timed out")
-    else:
+    else: # Update auth for another 10 min
         auth.date_created = now
         auth.save()
 
