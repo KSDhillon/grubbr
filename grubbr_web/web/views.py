@@ -14,7 +14,7 @@ def make_request(url, data={}):
         req = urllib.request.Request(url, enc_data)
     else:
         req = urllib.request.Request(url)
-        
+
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     return json.loads(res_json)
 
@@ -22,18 +22,20 @@ def home(request):
     data = {}
     if request.COOKIES.get('auth'):
         data = {'auth': request.COOKIES.get('auth')}
-    
+
     res = make_request('http://exp-api:8000/api/meals/', data)
     context = {
         'data': res['result']['meals'],
-        'auth': res['result']['auth']
+        'auth': res['result']['auth'],
+        'cssfile': 'css/home.css',
     }
     return render(request, 'home.html', context)
 
 def meal(request, meal_id):
     res = make_request('http://exp-api:8000/api/meal/' + str(meal_id))
     context = {
-        'data': res["result"]
+        'data': res["result"],
+        'cssfile': 'css/meal.css',
     }
     return render(request, 'meal.html', context)
 
@@ -41,14 +43,14 @@ def createMeal(request):
 
     if not isAuth(request):
         return HttpResponseRedirect(reverse('login'))
-    
+
     if request.method == 'GET':
-        return render(request, 'createmeal.html', {'form': forms.CreateMealForm()})
+        return render(request, 'createmeal.html', {'form': forms.CreateMealForm(), 'cssfile': 'css/createmeal.css'})
 
     form = forms.CreateMealForm(request.POST)
 
     if not form.is_valid():
-        return render(request, 'createmeal.html')
+        return render(request, 'createmeal.html', { 'cssfile': 'css/createmeal.css' })
 
     name = form.cleaned_data['name']
     price = form.cleaned_data['price']
@@ -62,9 +64,9 @@ def createMeal(request):
     res = make_request('http://exp-api:8000/api/createmeal/', data)
 
     if not res or not res['success']: # If login unsuccessful
-        return render(request, 'createmeal.html', {'error': res['result'] or "Could not create meal", 'form': forms.CreateMealForm()})
+        return render(request, 'createmeal.html', {'error': res['result'] or "Could not create meal", 'form': forms.CreateMealForm(), 'cssfile': 'css/createmeal.css'})
 
-    return render(request, 'createmeal.html', {'created': True, 'form': forms.CreateMealForm()})
+    return render(request, 'createmeal.html', {'created': True, 'form': forms.CreateMealForm(), 'cssfile': 'css/createmeal.css'})
 
 def isAuth(request):
     if not request.COOKIES.get('auth'):
@@ -78,7 +80,7 @@ def login(request):
 
     if isAuth(request):
         return HttpResponseRedirect(reverse('home'))
-    
+
     if request.method == 'GET':
         return render(request, 'login.html', {'form': forms.LoginForm()})
 

@@ -1,25 +1,4 @@
-body {
-    background-color: #f7f7f7;
-    height: 100%
-}
-
-#nav-logo {
-    font-size: 30px;
-}
-
-#myFooter {
-    background-color: #3c3d41;
-    color: white;
-    margin-top: 50px;
-    padding-top: 30px;
-}
-
-#myFooter .footer-copyright {
-    background-color: #333333;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    text-align: center;
-}
+@import "base.css";
 
 #meal-container {
     margin-top: 2rem;
