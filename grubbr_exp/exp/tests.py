@@ -19,32 +19,28 @@ class UserTestCase(TestCase):
                           'price': 5
         }
         
-    def test_create_user(self):
-        url = reverse('user_create')
-        user_data = {'email': 'dankramp@virginia.edu',
-                     'password': 'password',
-                     'first_name': 'Dan',
-                     'last_name': 'Kramp'
-        }
+    def test_homepage_data(self):
+        url = reverse('homepage')
         
-        response = self.client.post(url, user_data, format='json')
+        response = self.client.get(url, format='json')
 
         # Verify response is successful
         res = json.loads(response.content.decode('utf-8'))
         self.assertTrue(res['success'])
 
-        # Verify that there are now two objects in the database
-        self.assertEqual(User.objects.count(), 2)
-
-        # Compare email addresses of objects
-        new_user = User.objects.get(pk=2)
-        self.assertEqual(new_user.email, user_data['email'])
+        # Verify content of response
+        self.assertTrue(res['result']['meals'])
 
             
-    def test_update_user(self):
-        url = reverse('user_action', args=[self.first_user.id])
+    def test_create_account(self):
+        user_data = {'email': 'dankramp@virginia.edu',
+                     'password': 'password1',
+                     'first_name': 'Dan',
+                     'last_name': 'Kramp'
+        }
+        url = reverse('register')
 
-        response = self.client.post(url, {'email': 'testemail@test.net'}, format='json')
+        response = self.client.post(url, user_data, format='json')
 
         # Verify that it returns the desired status code
         self.assertEqual(response.status_code, 200)
