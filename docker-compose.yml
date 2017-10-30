@@ -7,7 +7,7 @@ models:
     ports:
       - "8001:8000"
 
-    command: bash -c "python /app/manage.py makemigrations && python /app/manage.py migrate && python /app/manage.py loaddata /app/db.json && python /app/manage.py test && mod_wsgi-express start-server --working-directory /app/ --reload-on-changes /app/grubbr_models/wsgi.py"
+    command: bash -c "python /app/manage.py makemigrations && python /app/manage.py migrate && python /app/manage.py loaddata /app/db.json && mod_wsgi-express start-server --working-directory /app/ --reload-on-changes /app/grubbr_models/wsgi.py"
     #removed tests because they were causing a problem
 
 exp:
@@ -52,4 +52,4 @@ batch:
       - es:es
    volumes:
      - .:/app
-   #command: bash -c "./wait-for-it.sh kafka:9092 && python3 /app/kafka_script.py"
+   command: ["./wait-for-it.sh", "kafka:9092", "--", "python", "/app/kafka_script.py"]
