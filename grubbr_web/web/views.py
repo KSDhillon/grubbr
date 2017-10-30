@@ -31,6 +31,12 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
+def search_page(request):
+    context = {
+        'cssfile': 'css/search.css'
+    }
+    return render(request, 'search.html', context)
+
 def meal(request, meal_id):
     res = make_request('http://exp-api:8000/api/meal/' + str(meal_id))
     context = {

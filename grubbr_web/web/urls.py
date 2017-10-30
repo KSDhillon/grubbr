@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^register/$', views.register, name="register"),
     url(r'^meal/(?P<meal_id>[0-9]+)$', views.meal, name="meal"),
     url(r'^create/$', views.createMeal, name="create-meal"),
+    url(r'^search/$', views.search_page, name="search"),
 ]

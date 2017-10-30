@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Welcome to Grubbr!</h1>
+        <p class="lead text-muted">A Marketplace where you can buy or sell homecooked meals. <br />Affordable | Healthy | Fun</p>
+        <p>
+            <a href="/create" class="btn btn-info">Create Meal</a>
+        </p>
+    </div>
+</section>
+
+<div class="container" id="meal-container">
+    <div class="card">
+      <div class="card-block text-center" id="meal-heading">
+        <h3 class="jumbotron-heading no-mb">Featured Meals</h3>
+      </div>
+    </div>
+    <div class="row meal-row">
+        {% if data %}
+            {% for meal in data %}
+                <div class="col-md-4">
+                    <div class="card meal-card">
+                        <div class="card-block meal-title">
+                            <h5 class="jumbotron-heading no-mb"><a href="/meal/{{meal.id}}">{{ meal.name }}</a></h5>
+                        </div>
+                        <img src="http://via.placeholder.com/300x200" alt="Card image">
+                        <div class="card-block">
+                            <p class="card-text"><b>${{meal.price}}</b></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No meals avalible.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
