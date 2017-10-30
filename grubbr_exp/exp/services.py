@@ -1,5 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from kafka import KafkaProducer
 import urllib.request
 import urllib.parse
 import json
@@ -75,6 +76,9 @@ def create_new_listing(request):
     }
 
     res = make_request('http://models-api:8000/api/meal/', meal_data)
+    if res['success']: # Send to Kafka queue
+        producer = KafkaProducer(bootstrap_servers='kafka:9092')
+        producer.send('new-listings-topic', json.dumps(meal_data).encode('utf-8'))
     return message(res["success"], res["result"])
 
 def is_authenticated(request):
