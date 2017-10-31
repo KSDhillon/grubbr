@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^register/$', create_account, name='register'),
     url(r'^auth/$', is_authenticated, name='authenticated'),
     url(r'^createmeal/$', create_new_listing, name='create_meal'),
+    url(r'^search/$', search_listings, name='search_listings'),
 
 ]

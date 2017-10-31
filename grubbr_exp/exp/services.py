@@ -1,6 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from kafka import KafkaProducer
+from elasticsearch import Elasticsearch
 import urllib.request
 import urllib.parse
 import json
@@ -92,3 +93,17 @@ def check_auth(request):
         res = make_request('http://models-api:8000/api/authenticate/', authentication)
         return res['success']
     return False
+
+def search_listings(request):
+    if not request.GET['q']: # Query is passed in as GET data 'q'
+        return message(False, 'No query provided')
+
+    es = Elasticsearch(['es'])
+    res = es.search(index='listing_index', body={'query': {'query_string': {'query': request.GET['q']}}, 'size': 10})
+
+    results = []
+    if not res['timed_out']:
+        for r in res['hits']['hits']:
+            results.append(r['_source'])
+    
+    return message(True, results)
