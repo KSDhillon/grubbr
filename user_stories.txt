@@ -10,6 +10,9 @@
  10. As a user, I want to view the homepage without having to login so I can decide if I want to sign up.
  11. As a user, I want to create an account so that I can buy and sell meals.
  12. As a user, I want to login to an account so that I can view the meals associated with my account.
+ 13. As a user, I want to search for a meal so I can view it.
+ 14. As a user, I want to click on the search results so I can see the meal's detail page.
+ 15. As a user, I want to receive an error message when something unexpected happens so I can address the issue.
 
 ### Ignore everything below this
 1. As a user, I want to see available meals so that I know which ones are available for order.
