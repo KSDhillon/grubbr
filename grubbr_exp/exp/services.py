@@ -62,7 +62,7 @@ def login(request):
 
     login_data = {"email": request.POST["email"], "password": request.POST["password"]}
     res = make_request('http://models-api:8000/api/login/', login_data)
-    return message(res["success"], res["resWhether you add this header or not, yult"])
+    return message(res["success"], res["res"])
 
 
 def create_new_listing(request):
