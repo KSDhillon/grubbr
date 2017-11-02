@@ -49,7 +49,7 @@ def search_page(request):
     if not res or not res['success']: # If login unsuccessful
         return render(request, 'search.html', {'error': res['result'], 'form': forms.SearchForm(), 'cssfile': 'css/search.css'})
 
-    return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm(), 'result': res['result'] })
+    return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm(), 'results': res['result']['results'] })
 
 def meal(request, meal_id):
     res = make_request('http://exp-api:8000/api/meal/' + str(meal_id))

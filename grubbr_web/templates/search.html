@@ -22,26 +22,31 @@
       <div class="card-block">
           <h3>Results</h3>
 
-              <div class="card">
-
-                  <div class="card-body">
-                      <div class="row">
-                          <div class="col-lg-3 text-center">
-                              <img src="http://via.placeholder.com/200x200" class="img-responsive" style="padding: 2em" alt="Card image">
-                          </div>
-                          <div class="col-lg-9">
-                              <div>
-                                  <h4 class="card-title">Meal Name</h4>
-                                  <h6 class="card-subtitle mb-2 text-muted">Price</h6>
-                                  <h6 class="card-subtitle mb-2 text-muted">x portions</h6>
-                                  <p class="card-text">
-                                      Description Here
-                                  </p>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+            {% if results %}
+                {% for result in results %}
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-3 text-center">
+                                    <img src="http://via.placeholder.com/200x200" class="img-responsive" style="padding: 2em" alt="Card image">
+                                </div>
+                                <div class="col-lg-9">
+                                    <div>
+                                        <h4 class="card-title">{{ result.name }}</h4>
+                                        <h6 class="card-subtitle mb-2 text-muted">Price</h6>
+                                        <h6 class="card-subtitle mb-2 text-muted">x portions</h6>
+                                        <p class="card-text">
+                                            Description Here
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Try searching for something!</p>
+            {% endif %}
 
       </div>
     </div>
