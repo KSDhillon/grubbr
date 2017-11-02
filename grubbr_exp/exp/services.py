@@ -31,8 +31,9 @@ def get_home_page(request):
     return message(res["success"], {'meals': res["result"], 'auth': check_auth(request)})
 
 def get_detail_page(request, meal_id):
+    auth = check_auth(request)
     res = make_request('http://models-api:8000/api/meal/' + str(meal_id))
-    return message(res["success"], res["result"])
+    return message(res["success"], {'result': res["result"], 'auth': auth})
 
 def create_account(request):
     if request.method != "POST":
