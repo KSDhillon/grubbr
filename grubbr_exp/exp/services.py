@@ -101,11 +101,11 @@ def check_auth(request):
     return False
 
 def search_listings(request):
-    if not request.GET['q']: # Query is passed in as GET data 'q'
+    if not request.POST['q']: # Query is passed in as GET data 'q'
         return message(False, 'No query provided')
 
     es = Elasticsearch(['es'])
-    res = es.search(index='listing_index', body={'query': {'query_string': {'query': request.GET['q']}}, 'size': 10})
+    res = es.search(index='listing_index', body={'query': {'query_string': {'query': request.POST['q']}}, 'size': 10})
 
     results = []
     if not res['timed_out']:
