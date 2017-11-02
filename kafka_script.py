@@ -1,5 +1,6 @@
 from kafka import KafkaConsumer
 from elasticsearch import Elasticsearch
+import json
 
 es = Elasticsearch(['es'])
 consumer = KafkaConsumer('new-listings-topic', group_id='listing-indexer', bootstrap_servers=['kafka:9092'])

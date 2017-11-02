@@ -13,6 +13,7 @@ exp:
   image: tp33/django
   links:
      - models:models-api
+     - kafka:kafka
   ports:
      - "8002:8000"
   volumes:
@@ -51,4 +52,4 @@ batch:
       - es:es
    volumes:
      - .:/app
-   command: ["./wait-for-it.sh", "kafka:9092", "--", "python", "/app/kafka_script.py"]
+   command: ["/app/wait-for-it.sh", "kafka:9092", "--", "python", "/app/kafka_script.py"]

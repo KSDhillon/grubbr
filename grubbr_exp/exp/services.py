@@ -62,7 +62,7 @@ def login(request):
 
     login_data = {"email": request.POST["email"], "password": request.POST["password"]}
     res = make_request('http://models-api:8000/api/login/', login_data)
-    return message(res["success"], res["resWhether you add this header or not, yult"])
+    return message(res["success"], res["result"])
 
 
 def create_new_listing(request):
@@ -79,7 +79,7 @@ def create_new_listing(request):
     res = make_request('http://models-api:8000/api/meal/', meal_data)
     if res['success']: # Send to Kafka queue
         producer = KafkaProducer(bootstrap_servers='kafka:9092')
-        producer.send('new-listings-topic', json.dumps(meal_data).encode('utf-8'))
+        producer.send('new-listings-topic', json.dumps(res['result']).encode('utf-8'))
     return message(res["success"], res["result"])
 
 def is_authenticated(request):

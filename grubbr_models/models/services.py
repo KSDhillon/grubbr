@@ -73,7 +73,7 @@ def create_meal(request):
             meal.save()
         except:
             return message(False, "There was an error saving user to database.")
-        return message(True, "Meal was created.")
+        return message(True, meal.to_json())
     elif (request.method == 'GET'):
         meals = Meal.objects.all()
         result = []
