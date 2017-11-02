@@ -70,6 +70,12 @@ def create_new_listing(request):
     if request.method != "POST":
         return message(False, "Must be POST request")
 
+    if (not request.POST['name'] or
+        not request.POST['price'] or
+        not request.POST['description'] or
+        not request.POST['portions']):
+        return message(False, "Not all required fields provided.")
+
     meal_data =  {"name": request.POST["name"],
         "price": request.POST["price"],
         "description": request.POST["description"],
