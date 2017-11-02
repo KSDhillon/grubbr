@@ -5,25 +5,25 @@ import json
 es = Elasticsearch(['es'])
 fixtures = [
     {
-        name: 'pasta',
-        price: 10,
-        portions: 5,
-        desciption: 'cheesy',
-        id: 1
+        'name': 'pasta',
+        'price': 10,
+        'portions': 5,
+        'desciption': 'cheesy',
+        'id': 1
     },
     {
-        name: 'hamburger',
-        price: 10,
-        portions: 5,
-        desciption: 'meaty',
-        id: 2
+        'name': 'hamburger',
+        'price': 10,
+        'portions': 5,
+        'desciption': 'meaty',
+        'id': 2
     },
     {
-        name: 'lasanga',
-        price: 10,
-        portions: 5,
-        desciption: 'silent G',
-        id: 3
+        'name': 'lasanga',
+        'price': 10,
+        'portions': 5,
+        'desciption': 'silent G',
+        'id': 3
     },
 ]
 for fix in fixtures:
