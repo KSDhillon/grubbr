@@ -54,7 +54,7 @@ def search_page(request):
     if not res or not res['success']: # If login unsuccessful
         return render(request, 'search.html', {'error': res['result'], 'form': forms.SearchForm(), 'cssfile': 'css/search.css'})
 
-    return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm(), 'results': res['result']['results'], 'auth': res['result']['auth'] })
+    return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm(), 'results': res['result']['results'], 'auth': res['result']['auth'], 'search': True})
 
 def meal(request, meal_id):
     data = {}
