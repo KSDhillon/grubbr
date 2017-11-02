@@ -20,14 +20,14 @@ def make_request(url, data={}):
         req = urllib.request.Request(url, enc_data)
     else:
         req = urllib.request.Request(url)
-        
+
     res_json = urllib.request.urlopen(req).read().decode('utf-8')
     return json.loads(res_json)
 
 def get_home_page(request):
 
     res = make_request('http://models-api:8000/api/meal')
-    
+
     return message(res["success"], {'meals': res["result"], 'auth': check_auth(request)})
 
 def get_detail_page(request, meal_id):
@@ -62,11 +62,11 @@ def login(request):
 
     login_data = {"email": request.POST["email"], "password": request.POST["password"]}
     res = make_request('http://models-api:8000/api/login/', login_data)
-    return message(res["success"], res["result"])
+    return message(res["success"], res["resWhether you add this header or not, yult"])
 
 
 def create_new_listing(request):
-    
+
     if request.method != "POST":
         return message(False, "Must be POST request")
 
@@ -75,9 +75,8 @@ def create_new_listing(request):
         not request.POST['description'] or
         not request.POST['portions']):
         return message(False, "Not all required fields provided.")
-    
 
-    meal_data =  {"name": request.POST["name"], 
+    meal_data =  {"name": request.POST["name"],
         "price": request.POST["price"],
         "description": request.POST["description"],
         "portions": request.POST["portions"],
@@ -112,5 +111,5 @@ def search_listings(request):
     if not res['timed_out']:
         for r in res['hits']['hits']:
             results.append(r['_source'])
-    
+
     return message(True, results)

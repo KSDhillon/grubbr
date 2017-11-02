@@ -8,7 +8,6 @@ models:
       - "8001:8000"
 
     command: bash -c "python /app/manage.py makemigrations && python /app/manage.py migrate && python /app/manage.py loaddata /app/db.json && mod_wsgi-express start-server --working-directory /app/ --reload-on-changes /app/grubbr_models/wsgi.py"
-    #removed tests because they were causing a problem
 
 exp:
   image: tp33/django
@@ -37,7 +36,7 @@ kafka:
       ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
    hostname: kafka
-   
+
 es:
    image: elasticsearch:2.0
    container_name: es
