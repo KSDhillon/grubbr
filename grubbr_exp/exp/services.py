@@ -112,4 +112,4 @@ def search_listings(request):
         for r in res['hits']['hits']:
             results.append(r['_source'])
 
-    return message(True, results)
+    return message(True, {'results': results, 'auth': check_auth(request)})

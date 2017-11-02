@@ -32,29 +32,39 @@ def home(request):
     return render(request, 'home.html', context)
 
 def search_page(request):
+    data = {}
+    if request.COOKIES.get('auth'):
+        data = {'auth': request.COOKIES.get('auth')}
 
     if request.method == 'GET':
-        return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm() })
+        auth = isAuth(request)
+        return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm(), 'auth': auth })
 
     form = forms.SearchForm(request.POST)
 
     if not form.is_valid():
-        return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm() })
+        auth = isAuth(request)
+        return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm(), 'auth': auth })
 
     q = form.cleaned_data['q']
 
-    data = { 'q': q }
+    data['q'] = q
     res = make_request('http://exp-api:8000/api/search/', data)
 
     if not res or not res['success']: # If login unsuccessful
         return render(request, 'search.html', {'error': res['result'], 'form': forms.SearchForm(), 'cssfile': 'css/search.css'})
 
-    return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm(), 'result': res['result'] })
+    return render(request, 'search.html', { 'cssfile': 'css/search.css', 'form': forms.SearchForm(), 'result': res['result'], 'auth': res['auth'] })
 
 def meal(request, meal_id):
+    data = {}
+    if request.COOKIES.get('auth'):
+        data = {'auth': request.COOKIES.get('auth')}
+        
     res = make_request('http://exp-api:8000/api/meal/' + str(meal_id))
     context = {
         'data': res["result"],
+        'auth': auth,
         'cssfile': 'css/meal.css',
     }
     return render(request, 'meal.html', context)
@@ -65,12 +75,12 @@ def createMeal(request):
         return HttpResponseRedirect(reverse('login'))
 
     if request.method == 'GET':
-        return render(request, 'createmeal.html', {'form': forms.CreateMealForm(), 'cssfile': 'css/createmeal.css'})
+        return render(request, 'createmeal.html', {'form': forms.CreateMealForm(), 'cssfile': 'css/createmeal.css', 'auth': True})
 
     form = forms.CreateMealForm(request.POST)
 
     if not form.is_valid():
-        return render(request, 'createmeal.html', { 'cssfile': 'css/createmeal.css' })
+        return render(request, 'createmeal.html', { 'cssfile': 'css/createmeal.css', 'auth': True })
 
     name = form.cleaned_data['name']
     price = form.cleaned_data['price']
@@ -84,9 +94,9 @@ def createMeal(request):
     res = make_request('http://exp-api:8000/api/createmeal/', data)
 
     if not res or not res['success']: # If login unsuccessful
-        return render(request, 'createmeal.html', {'error': res['result'] or "Could not create meal", 'form': forms.CreateMealForm(), 'cssfile': 'css/createmeal.css'})
+        return render(request, 'createmeal.html', {'error': res['result'] or "Could not create meal", 'form': forms.CreateMealForm(), 'cssfile': 'css/createmeal.css', 'auth': True})
 
-    return render(request, 'createmeal.html', {'created': True, 'form': forms.CreateMealForm(), 'cssfile': 'css/createmeal.css'})
+    return render(request, 'createmeal.html', {'created': True, 'form': forms.CreateMealForm(), 'cssfile': 'css/createmeal.css', 'auth': True})
 
 def isAuth(request):
     if not request.COOKIES.get('auth'):
