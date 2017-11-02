@@ -28,7 +28,7 @@ fixtures = [
 ]
 for fix in fixtures:
     es.index(index='listing_index', doc_type='listing', id=fix['id'], body=fix)
-es.indices.refresh(index='listing_index')
+    es.indices.refresh(index='listing_index')
 
 consumer = KafkaConsumer('new-listings-topic', group_id='listing-indexer', bootstrap_servers=['kafka:9092'])
 for message in consumer:
