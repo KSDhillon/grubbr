@@ -29,6 +29,7 @@ def home(request):
         'auth': res['result']['auth'],
         'cssfile': 'css/home.css',
     }
+    print("Logging")
     return render(request, 'home.html', context)
 
 def search_page(request):

@@ -29,7 +29,17 @@ web:
      - "8000:8000"
   volumes:
      - ./grubbr_web:/app
-  command: "mod_wsgi-express start-server --reload-on-changes /app/grubbr_web/wsgi.py"
+  command: "mod_wsgi-express start-server --reload-on-changes /app/grubbr_web/wsgi.py --log-to-terminal"
+
+web2:
+  image: tp33/django
+  links:
+     - exp:exp-api
+  ports:
+     - "8003:8000"
+  volumes:
+     - ./grubbr_web:/app
+  command: "mod_wsgi-express start-server --reload-on-changes /app/grubbr_web/wsgi.py --log-to-terminal"
 
 kafka:
    image: spotify/kafka
@@ -52,5 +62,14 @@ batch:
       - kafka:kafka
       - es:es
    volumes:
-     - .:/app
+      - .:/app
    command: bash -c "/app/wait-for-it.sh es:9200 && /app/wait-for-it.sh kafka:9092 -- python /app/kafka_script.py"
+
+haproxy:
+   links:
+      - web:web
+      - web2:web2
+   build: ./load_balancing/
+   ports:
+      - "80:8000"
+   

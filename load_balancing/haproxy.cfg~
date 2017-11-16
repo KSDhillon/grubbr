@@ -1,0 +1,23 @@
+global
+	log logs6.papertrailapp.com:37813 local0
+	log-send-hostname
+        maxconn 256
+
+defaults
+	log global
+	mode http
+        timeout connect 5000ms
+        timeout client 50000ms
+        timeout server 50000ms
+
+frontend http-in
+        bind *:8000
+        default_backend servers
+
+backend servers
+        server server_exp *:8002 maxconn 32
+        server server_models *:8001 maxconn 32
+        server server_es *:9200 maxconn 32
+        server server_kafka *:9092 maxconn 32	
+
+# How do I link to this file? Where are the docker files even stored?
