@@ -9,7 +9,7 @@ services:
     - docker
 
 before_script:
-    - mkdir /cs4501/db
+    - mkdir -p ~/cs4501/db
     - docker pull mysql:5.7.17
     - docker run --name mysql -d -e MYSQL\_ROOT\_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.17
     - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.17 bash
