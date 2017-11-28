@@ -21,7 +21,7 @@ before_script:
     - docker exec -it mysql-cmdline bash -c "mysql -u root -p'\$3cureUS' -h db -e 'create user \"www\"@\"%\" identified by \"\$3cureUS\";'"
     - docker exec -it mysql-cmdline bash -c "mysql -u root -p'\$3cureUS' -h db -e 'grant all on cs4501.* to \"www\"@\"%\";' "
     - docker exec -it mysql-cmdline bash -c "mysql -u root -p'\$3cureUS' -h db -e 'grant all on test_cs4501.* to \"www\"@\"%\";' "
-    - docker-compose up
+    - docker-compose up -d
 
 script:
     - docker ps -a
