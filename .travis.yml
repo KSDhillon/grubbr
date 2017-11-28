@@ -25,6 +25,7 @@ before_script:
 
 script:
     - docker ps -a
+    - docker exec -it grubbr_models_1 bash -c "python /app/manage.py test"
 
 notifications:
   email: false
