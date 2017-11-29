@@ -89,4 +89,4 @@ selenium-test:
     - web:web
   volumes:
     - ./:/app
-  command: bash -c "/app/wait-for-it.sh web:8000 && /app/wait-for-it.sh selenium-chrome:4444 -- pip install selenium==3.7.0"
+  command: bash -c "/app/wait-for-it.sh web:8000 && /app/wait-for-it.sh selenium-chrome:4444 -- pip install selenium==3.7.0 && python /app/selenium_test_script.py"
