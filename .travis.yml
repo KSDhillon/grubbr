@@ -27,6 +27,7 @@ script:
     - docker ps -a
     - docker exec -it grubbr_models_1 bash -c "python /app/manage.py test"
     - docker exec -it selenium-test bash -c "python /app/selenium_test_script.py"
+    - docker ps -a
 
 notifications:
   email: false
