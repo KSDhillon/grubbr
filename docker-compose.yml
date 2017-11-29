@@ -72,4 +72,21 @@ haproxy:
    build: ./load_balancing/
    ports:
       - "80:8000"
-   
+
+selenium-chrome:
+  image: selenium/standalone-chrome
+  container_name: selenium-chrome
+  links:
+    - web:web
+  ports:
+    - "4444:4444"
+
+selenium-test:
+  image: tp33/django
+  container_name: selenium-test
+  links:
+    - selenium-chrome:selenium-chrome
+    - web:web
+  volumes:
+    - ./:/app
+  command: bash -c "/app/wait-for-it.sh web:8000 && /app/wait-for-it.sh selenium-chrome:4444 -- pip install selenium==3.7.0 && python /app/selenium_test_script.py && echo 'done'"

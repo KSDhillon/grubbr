@@ -18,7 +18,7 @@
                         {% endif %}
                         {% if created %}
                             <div class="alert alert-success" role="alert">
-                                <strong>Sucess!</strong> You meal was created.
+                                <strong>Sucess!</strong> Your meal was created.
                             </div>
                         {% endif %}
                         {% for error in form.non_field_errors %}
@@ -40,7 +40,7 @@
                         {% endfor %}
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success btn-lg btn-block">Create</button>
+                            <button type="submit" class="btn btn-success btn-lg btn-block" id="id_create">Create</button>
                         </div>
                     </form>
                 </div>
