@@ -3,6 +3,8 @@
 CS 4501 Project
 Group Members: Aadil Abbas, Karan Dhillon, Dan Kramp
 
+[![Build Status](https://travis-ci.org/KSDhillon/grubbr.svg?branch=master)](https://travis-ci.org/KSDhillon/grubbr)
+
 #TODO
 -for test cases, make sure to test for errors as well (passing in
 invalid data).
