@@ -44,6 +44,11 @@ class Authenticator(models.Model):
     authenticator = models.CharField(primary_key=True, max_length = 200)
     date_created = models.DateTimeField(auto_now_add=True)
 
+class Recommendations(models.Model):
+    item_id = models.PositiveIntegerField(default=0)
+    recommended_items = models.CharField(max_length=200)
+
+
 # def create_auth():
 #     while True:
 #         authenticator = hmac.new(

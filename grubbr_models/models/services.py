@@ -189,6 +189,7 @@ def authenticate(request):
         return message(False, "Authentication not recognized")
 
     created = auth.date_created
+    user = auth.user_id
     now = datetime.datetime.now(created.tzinfo)
     timePassed = now - created
     if timePassed.seconds > 600: # Timeout seconds: 10 min
@@ -198,4 +199,4 @@ def authenticate(request):
         auth.date_created = now
         auth.save()
 
-    return message(True, "Authentication valid")
+    return message(True, str(user))

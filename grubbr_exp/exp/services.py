@@ -33,6 +33,10 @@ def get_home_page(request):
 def get_detail_page(request, meal_id):
     auth = check_auth(request)
     res = make_request('http://models-api:8000/api/meal/' + str(meal_id))
+    if auth and res['success']:
+        user = get_user(request)
+        with open('log.txt', 'a') as the_file:
+            the_file.write(user + "," + meal_id + "\n")
     return message(res["success"], {'result': res["result"], 'auth': auth})
 
 def create_account(request):
@@ -99,6 +103,14 @@ def check_auth(request):
 
         res = make_request('http://models-api:8000/api/authenticate/', authentication)
         return res['success']
+    return False
+
+def get_user(request):
+    if request.method == 'POST' and request.POST['auth']:
+        authentication = {"auth": request.POST['auth']}
+        res = make_request('http://models-api:8000/api/authenticate/', authentication)
+        if res['success']:
+            return res['result']
     return False
 
 def search_listings(request):
