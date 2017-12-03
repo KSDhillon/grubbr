@@ -62,7 +62,8 @@ batch:
       - kafka:kafka
       - es:es
    volumes:
-      - .:/app
+      - ./batch:/app
+      - ./data:/spark
    command: bash -c "/app/wait-for-it.sh es:9200 && /app/wait-for-it.sh kafka:9092 -- python /app/kafka_script.py"
 
 haproxy:
@@ -88,7 +89,7 @@ selenium-test:
     - selenium-chrome:selenium-chrome
     - web:web
   volumes:
-    - ./:/app
+    - ./selenium:/app
   command: bash -c "/app/wait-for-it.sh web:8000 && /app/wait-for-it.sh selenium-chrome:4444 -- pip install selenium==3.7.0 && python /app/selenium_test_script.py"
 
 spark-master:
