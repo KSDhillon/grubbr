@@ -5,7 +5,11 @@ sc = SparkContext("spark://spark-master:7077", "PopularItems")
 data = sc.textFile("/tmp/data/access.log", 2)     # each worker loads a piece of the data file
 
 pairs = data.map(lambda line: line.split("\t"))   # tell each worker to split each line of it's partition
+print("pairs: ")
+print(pairs)
 pages = pairs.map(lambda pair: (pair[1], 1))      # re-layout the data to ignore the user id
+print("pages: ")
+print(pages)
 count = pages.reduceByKey(lambda x,y: int(x)+int(y))        # shuffle the data so that each key is only on one worker
                                                   # and then reduce all the values by adding them together
 
