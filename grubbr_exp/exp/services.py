@@ -33,6 +33,11 @@ def get_home_page(request):
 def get_detail_page(request, meal_id):
     auth = check_auth(request)
     res = make_request('http://models-api:8000/api/meal/' + str(meal_id))
+    if auth: # Send to Kafka queue
+        user = get_user(request)
+        listing = { user: meal_id}
+        producer = KafkaProducer(bootstrap_servers='kafka:9092')
+        producer.send('rec-topic', json.dumps(listing).encode('utf-8'))
     return message(res["success"], {'result': res["result"], 'auth': auth})
 
 def create_account(request):
