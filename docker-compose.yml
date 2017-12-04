@@ -100,6 +100,8 @@ spark-master:
   environment:
     MASTER: spark://spark-master:7077
     SPARK_CONF_DIR: /conf
+  external_links:
+    - mysql:db
   expose:
     - 7001
     - 7002
@@ -128,6 +130,8 @@ spark-worker:
     SPARK_WORKER_MEMORY: 512m
     SPARK_WORKER_PORT: 8881
     SPARK_WORKER_WEBUI_PORT: 8081
+  external_links:
+    - mysql:db
   links:
     - spark-master
   expose:
