@@ -35,7 +35,7 @@ def get_detail_page(request, meal_id):
     res = make_request('http://models-api:8000/api/meal/' + str(meal_id))
     if auth: # Send to Kafka queue
         user = get_user(request)
-        listing = { user: meal_id}
+        listing = { user: meal_id }
         producer = KafkaProducer(bootstrap_servers='kafka:9092')
         producer.send('rec-topic', json.dumps(listing).encode('utf-8'))
     return message(res["success"], {'result': res["result"], 'auth': auth})

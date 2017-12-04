@@ -64,7 +64,7 @@ batch:
    volumes:
       - ./batch:/app
       - ./data:/spark
-   command: bash -c "/app/wait-for-it.sh es:9200 && /app/wait-for-it.sh kafka:9092 -- python /app/kafka_script.py"
+   command: bash -c "/app/wait-for-it.sh es:9200 && /app/wait-for-it.sh kafka:9092 -- /app/script.sh"
 
 haproxy:
    links:
