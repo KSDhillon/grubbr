@@ -1,4 +1,5 @@
 from pyspark import SparkContext
+import MySQLdb
 
 sc = SparkContext("spark://spark-master:7077", "Recommendations")
 
@@ -22,12 +23,31 @@ table = {}
 for rec in recommended:
     pair = rec[0]
     if pair[0] in table:
-        table[pair[0]].append(pair[1])
+        table[pair[0]].append(str(pair[1]))
     else:
-        table[pair[0]] = [pair[1]]
+        table[pair[0]] = [str(pair[1])]
     if pair[1] in table:
-        table[pair[1]].append(pair[0])
+        table[pair[1]].append(str(pair[0]))
     else:
-        table[pair[1]] = [pair[0]]
+        table[pair[1]] = [str(pair[0])]
 
 print(table)
+
+db = MySQLdb.connect("db", "www", "$3cureUS", "cs4501")
+cursor = db.cursor()
+try:
+    cursor.execute("USE cs4501;")
+    cursor.execute("TRUNCATE models_recommendations;")
+    for key, value in table.items():
+        command = "INSERT INTO models_recommendations (item_id, recommended_items) VALUES ({},\'{}\');".format(key, ",".join(value))
+        cursor.execute(command)
+    db.commit()
+    cursor.execute("SELECT * from models_recommendations")
+    print(cursor.fetchall())
+except:
+    print("error occured")
+    db.rollback()
+
+
+
+db.close()
