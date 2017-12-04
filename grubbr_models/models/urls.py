@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^user/(?P<user_id>[0-9]+)$', rud_user_by_id, name='user_action'),
     url(r'^meal/(?P<meal_id>[0-9]+)$', rud_meal_by_id, name='meal_action'),
     url(r'^authenticate/$', authenticate, name='model_authenticate'),
+    url(r'^recommendations/(?P<meal_id>[0-9]+)$', get_recommendations, name='model_recs'),
 ]

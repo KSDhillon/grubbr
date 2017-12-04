@@ -200,3 +200,24 @@ def authenticate(request):
         auth.save()
 
     return message(True, str(user))
+
+def get_recommendations(request, meal_id):
+    if request.method != 'GET':
+        return message(False, "Cannot " + request.method + " to recommendations")
+
+    try:
+        rec = Recommendations.objects.get(pk=meal_id)
+    except Recommendations.DoesNotExist:
+        return message(False, "No Recommendations were found")
+
+    recommended_items = [int(x) for x in rec.recommended_items.split(",")]
+    return_list = []
+
+    for item in recommended_items:
+        try:
+            meal = Meal.objects.get(pk=item)
+            return_list.append(meal.to_json())
+        except Meal.DoesNotExist:
+            continue
+
+    return message(True, return_list)

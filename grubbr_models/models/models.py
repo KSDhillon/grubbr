@@ -45,7 +45,7 @@ class Authenticator(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
 class Recommendations(models.Model):
-    item_id = models.PositiveIntegerField(default=0)
+    item_id = models.PositiveIntegerField(primary_key=True, default=0)
     recommended_items = models.CharField(max_length=200)
 
 

@@ -38,7 +38,11 @@ def get_detail_page(request, meal_id):
         listing = { user: meal_id }
         producer = KafkaProducer(bootstrap_servers='kafka:9092')
         producer.send('rec-topic', json.dumps(listing).encode('utf-8'))
-    return message(res["success"], {'result': res["result"], 'auth': auth})
+    rec = make_request('http://models-api:8000/api/recommendations/' + str(meal_id))
+    if rec['success']:
+        return message(res["success"], {'result': res["result"], 'auth': auth, 'recommendations': rec["result"]})
+    else:
+        return message(res["success"], {'result': res["result"], 'auth': auth, 'recommendations': False})
 
 def create_account(request):
     if request.method != "POST":
