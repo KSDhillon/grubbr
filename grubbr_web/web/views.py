@@ -67,7 +67,9 @@ def meal(request, meal_id):
         'data': res['result']['result'],
         'auth': res['result']['auth'],
         'cssfile': 'css/meal.css',
+        'recommendations': res['result']['recommendations']
     }
+
     return render(request, 'meal.html', context)
 
 def createMeal(request):

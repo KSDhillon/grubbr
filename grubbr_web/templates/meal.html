@@ -20,6 +20,20 @@
                         </div>
                     </div>
                 </div>
+                {% if recommendations %}
+                <h2>People who viewed {{data.name}} also viewed:</h2></br>
+                  {% for recommendation in recommendations %}
+                  <div class="col-md-12">
+                      <div class="card">
+                          <div class="card-block">
+                              <h4 class="card-title"><a href="/meal/{{recommendation.id}}">{{recommendation.name}}</a></h4>
+                              <p class="card-text">{{recommendation.description}}</p>
+                              <p class="card-text">{{recommendation.price}}</p>
+                          </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+                {% endif %}
             </div>
         </div>
     {% else %}
